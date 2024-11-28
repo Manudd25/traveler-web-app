@@ -1,0 +1,99 @@
+.tour-booking-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1010;
+    width: 450px;
+    text-align: center;
+  }
+  
+  .tour-details p {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .payment-method {
+    margin-top: 20px;
+  }
+  
+  .payment-method select {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+  }
+  
+  .confirm-booking-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .confirm-booking-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .confirmation-modal {
+    margin-top: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .confirmation-options button {
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .confirmation-options button:hover {
+    background-color: #27ae60;
+  }
+  
+  .close-modal-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .close-modal-button:hover {
+    background-color: #c0392b;
+  }
+  
+  .back-button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #c0392b;
+  }

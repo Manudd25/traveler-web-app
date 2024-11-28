@@ -1,0 +1,436 @@
+.cinema-booking-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Adjust as per your design */
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: black;
+  }
+  
+  .step-content {
+    flex: 1; /* Ensures equal width distribution for all step containers */
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .step-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .step-navigation button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #00C7BB;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .step-navigation button:hover {
+    background-color: #008f89;
+  }
+  
+  
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .step {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 3px solid #ccc;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .step.active {
+    border-bottom: 3px solid #00C7BB;
+    color: white;
+  }
+  
+ 
+  .seat-selection h3,
+  .showtime-selection h3,
+  .ticket-options h3,
+  .step-content h3 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .selected-seats {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .showtime-options {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .showtime-button {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: black;
+  }
+  
+  .showtime-button.selected {
+    background-color: #00C7BB;
+    color: white;
+  }
+  
+  .showtime-button:hover {
+    background-color: #ddd;
+  }
+  
+  .ticket-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .ticket-option label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .ticket-option input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+
+  
+  .download-ticket,
+  .show-qr {
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #00C7BB;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .download-ticket:hover,
+  .show-qr:hover {
+    background-color: #008f89;
+  }
+  
+
+
+/* General Container */
+.cinema-booking-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 90%; /* Responsive width */
+}
+
+
+
+
+/* Step 1: Seat Selection */
+.seat-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.selected-seats {
+  background-color: #eaf6f6;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.showtime-selection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.showtime-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 10px;
+}
+
+.showtime-button {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.showtime-button.selected {
+  background-color: #00C7BB;
+  color: white;
+}
+
+.showtime-button:hover {
+  background-color: #ddd;
+}
+
+/* Step 2: Ticket Selection */
+.ticket-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ticket-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.ticket-option label {
+  font-weight: bold;
+}
+
+.ticket-option input {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Step 3: Summary & Payment */
+.payment-form {
+    margin-top: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .ticket-summary-total {
+    margin-top: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+  }
+  
+
+/* Step 4: Confirmation */
+.confirmation {
+  text-align: center;
+}
+
+.confirmation button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #00C7BB;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.confirmation button:hover {
+  background-color: #008f89;
+}
+
+/* Navigation Buttons */
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.step-navigation button {
+  margin: 0;
+  padding: 10px 20px;
+  background-color: #00C7BB;
+  color: white;
+  width: 20%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.step-navigation button:hover {
+  background-color: #008f89;
+}
+
+/* Dark overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1000; /* Below the modal content */
+}
+
+/* Modal content */
+.qr-modal {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 1000; /* Above the overlay */
+}
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-code-container button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #00c7bb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.qr-code-container button:hover {
+  background-color: #00a89d;
+}
+
+.step-navigation button,
+.qr-code-container button,
+.confirmation button,
+.download-ticket,
+.show-qr,
+.showtime-button {
+  padding: 6px 12px; 
+  font-size: 12px; 
+  border-radius: 3px; 
+}
+
+.step-navigation button {
+  margin: auto;
+
+}
+
+
+.step-navigation button:hover,
+.qr-code-container button:hover,
+.confirmation button:hover,
+.download-ticket:hover,
+.show-qr:hover,
+.showtime-button:hover {
+  background-color: #008f89; 
+}
+
+@media (max-width: 600px) {
+  .step-navigation button,
+  .qr-code-container button,
+  .showtime-button {
+    padding: 5px 10px; /* Further reduce padding for smaller screens */
+    font-size: 10px; /* Smaller font size for mobile */
+  }
+}
+
+
+/* Media Queries for Responsive Design */
+
+/* Small Screens (Mobile) */
+@media (max-width: 600px) {
+  .steps {
+    flex-direction: column; /* Stack steps vertically */
+    align-items: center;
+    gap: 5px;
+  }
+
+  .step {
+    flex: none;
+    width: 100%; /* Full width for each step */
+    text-align: left; /* Align text to the left for readability */
+  }
+
+  .showtime-button {
+    flex: 1; /* Buttons adjust size on smaller screens */
+    font-size: 12px;
+  }
+
+  .ticket-option {
+    flex-direction: column; /* Stack label and input */
+    text-align: center;
+    gap: 5px;
+  }
+}
+
+/* Medium Screens (Tablets) */
+@media (max-width: 900px) {
+  .steps {
+    gap: 10px;
+  }
+
+  .step-content {
+    padding: 15px;
+  }
+
+  .showtime-options {
+    gap: 5px;
+  }
+}

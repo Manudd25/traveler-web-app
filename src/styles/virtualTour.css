@@ -1,0 +1,44 @@
+.photo-album-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #eef6ff;
+    height: 86vh;
+  }
+  
+  .photo-album h2 {
+    font-size: 2rem;
+    color: #0a3d62;
+  }
+  
+  .photo-album p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .photo-album {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .photo-card {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .photo-card img:hover {
+    transform: scale(1.1);
+  }
+  

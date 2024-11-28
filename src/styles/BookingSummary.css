@@ -1,0 +1,44 @@
+.ticket-summary {
+    margin-top: 10px;
+  }
+  
+  .ticket-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertical alignment for text, input, and price */
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .ticket-summary-row span {
+    flex: 1; /* Equal space for text and price */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .ticket-summary-row input {
+    flex: 0; /* Prevent input from stretching */
+    width: 50px; /* Adjust input width for consistency */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    margin: 0 10px;
+    height: 30px; /* Ensure consistent height for input boxes */
+  }
+  
+  .ticket-summary-row .price {
+    flex: 1; /* Space for price */
+    text-align: right; /* Align price to the right */
+  }
+  
+  .ticket-summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertical alignment for total row */
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 18.6rem;
+  }
+  
+

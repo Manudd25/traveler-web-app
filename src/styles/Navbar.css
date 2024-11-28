@@ -1,0 +1,258 @@
+/* General Navbar Styles */
+.navbar {
+  display: flex;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  color: white;
+  z-index: 1050; /* Higher than modal's z-index */
+
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-logo:hover {
+  color: #f0a500;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin-right: 10rem;
+}
+
+.nav-links .dropdown {
+  position: relative;
+}
+
+.nav-links .dropdown-menu {
+  position: absolute;
+  top: 100%; /* Align below the parent link */
+  left: 0;
+  background: linear-gradient(135deg, #646363, #a79f9f); /* Subtle gradient background */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  z-index: 1000;
+  border-radius: 8px; /* Rounded corners */
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-10px); /* Subtle upward positioning */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-links .dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.nav-links .dropdown-menu li a {
+  text-decoration: none;
+  color: white;
+}
+
+.nav-links .dropdown-menu li:hover {
+  background: #646363;
+}
+
+.nav-links .dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown on hover */
+  opacity: 1; /* Fade in */
+  transform: translateY(0); /* Slide into place */
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #f0a500;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-icons i {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: white;
+}
+
+.nav-icons i:hover {
+  color: #f0a500;
+}
+
+/* Notification Container */
+.notification-container {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+/* Notification Modal */
+.notification-modal {
+  display: none; /* Default: Hidden */
+  position: absolute;
+  top: 30px; /* Below the bell icon */
+  right: 0;
+  background: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.notification-container:hover .notification-modal,
+.notification-container:focus-within .notification-modal {
+  display: block; /* Show the modal when toggled */
+}
+
+.notification-modal h4 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.notification-modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.notification-modal li {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.notification-modal button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.notification-modal button:hover {
+  background-color: #d32f2f;
+}
+
+.account-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.account-container:hover .account-modal,
+.account-container:focus-within .account-modal,
+.account-modal:hover  {
+  display: block; /* Show the modal on hover or focus */
+
+}
+
+.account-modal {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  right: 0px;
+  top: 27px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 150px;
+  padding: 10px;
+}
+
+.account-modal a,
+.account-modal button {
+  padding: 10px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+
+.account-modal button:hover {
+  background-color: #d32f2f;
+}
+
+.account-modal .logout-button {
+  background-color: #f44336;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.account-modal a:hover {
+  color: #f0a500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+  }
+
+  .nav-icons {
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .notification-modal {
+    width: 200px; /* Smaller width for smaller screens */
+  }
+}

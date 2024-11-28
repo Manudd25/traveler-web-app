@@ -1,0 +1,20 @@
+{
+    "welcome": "Willkommen, Reisender!",
+    "bookingHistory": "Buchungshistorie",
+    "personalDetails": "Persönliche Daten",
+    "paymentDetails": "Zahlungsdetails",
+    "changeLanguage": "Sprache Ändern",
+    "logout": "Abmelden",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "dateOfBirth": "Geburtsdatum",
+    "saveChanges": "Änderungen Speichern",
+    "cardNumber": "Kartennummer",
+    "expiryDate": "Ablaufdatum",
+    "updatePaymentMethod": "Zahlungsmethode Aktualisieren",
+    "addPaymentMethod": "Zahlungsmethode Hinzufügen",
+    "remove": "Entfernen",
+    "confirmLogout": "Abmeldung Bestätigen",
+    "byeForNow": "Bis bald!"
+
+  }

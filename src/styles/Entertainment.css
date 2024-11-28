@@ -1,0 +1,142 @@
+/* General Layout */
+.entertainment-container {
+    padding: 20px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #eef6ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: black;
+  }
+  
+  .entertainment-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #0a3d62;
+  }
+  
+  .entertainment-container h3 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  /* Discos Section */
+  .disco-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .disco-card {
+  position: relative; 
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  }
+  
+  .disco-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .disco-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .disco-info {
+    padding: 15px;
+  }
+  
+  .disco-info h3 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .disco-info p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  /* Concerts Section */
+  .concert-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .concert-card {
+  position: relative; 
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  }
+  
+  .concert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .concert-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .concert-info {
+    padding: 15px;
+  }
+  
+  .concert-info h3 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .concert-info p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .entertainment-container h2 {
+      font-size: 1.8rem;
+    }
+  
+    .entertainment-container h3 {
+      font-size: 1.3rem;
+    }
+  
+    .disco-image,
+    .concert-image {
+      height: 150px;
+    }
+  
+    .disco-info h3,
+    .concert-info h3 {
+      font-size: 1.2rem;
+    }
+  
+    .disco-info p,
+    .concert-info p {
+      font-size: 0.9rem;
+    }
+  }
+  

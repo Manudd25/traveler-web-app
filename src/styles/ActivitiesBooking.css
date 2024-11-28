@@ -1,0 +1,261 @@
+*{
+  text-align: center;
+}
+.activity-booking {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  overflow: hidden;
+  color: black;
+}
+
+/* Header Section */
+.activity-header {
+  margin-bottom: 10px;
+}
+
+.activity-type {
+  font-size: 14px;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 5px;
+}
+
+.activity-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 10px 0;
+}
+
+.activity-rating {
+  font-size: 16px;
+  color: #f1c40f;
+}
+
+/* Main Image Section */
+.selected-image {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.main-image, .main-video {
+  width: 100%;
+  height: 280px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Thumbnail Section */
+.activity-thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.thumbnail-container {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: transform 0.2s ease, border-color 0.3s;
+  cursor: pointer;
+}
+
+.thumbnail-container:hover {
+  transform: scale(1.1);
+  border-color: #3498db;
+}
+
+.thumbnail-container.active {
+  border-color: #3498db;
+}
+
+.thumbnail-image, .thumbnail-video {
+  width: 100px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* Summary Section */
+.activity-summary {
+  text-align: justify;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: black;
+}
+
+/* Details Section */
+.activity-details {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.activity-details h2 {
+  font-size: 22px;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  margin-top: 0rem;
+}
+
+.activity-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-details li {
+  margin-bottom: 10px;
+}
+
+/* Booking Section */
+.activity-booking-options {
+  background-color: #0c1c4e;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.activity-booking-options h3 {
+  font-size: 20px;
+  margin: 5px;
+  color: #2c3e50;
+}
+
+/* Input Options */
+.booking-options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.option input,
+.option select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.option input:focus,
+.option select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.option select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-size: 10px;
+}
+
+/* Buttons */
+.check-availability-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.check-availability-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.availability-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 25px;
+  width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  text-align: left;
+}
+
+.availability-modal h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.availability-modal p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.availability-modal .continue-booking {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 16px;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.availability-modal .close-modal {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #e74c3c;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.availability-modal button:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .activity-thumbnails {
+      flex-wrap: wrap;
+  }
+
+  .option input,
+  .option select {
+      width: 100%;
+  }
+
+  .activity-booking-options {
+      margin-top: 30px;
+  }
+
+  .availability-modal {
+      width: 90%;
+  }
+}

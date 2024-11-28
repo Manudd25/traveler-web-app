@@ -1,0 +1,19 @@
+{
+    "welcome": "Bienvenue, Voyageur!",
+    "bookingHistory": "Historique des Réservations",
+    "personalDetails": "Détails Personnels",
+    "paymentDetails": "Détails de Paiement",
+    "changeLanguage": "Changer de Langue",
+    "logout": "Se Déconnecter",
+    "fullName": "Nom Complet",
+    "email": "Adresse Électronique",
+    "dateOfBirth": "Date de Naissance",
+    "saveChanges": "Sauvegarder les Modifications",
+    "cardNumber": "Numéro de Carte",
+    "expiryDate": "Date d'Expiration",
+    "updatePaymentMethod": "Mettre à Jour le Mode de Paiement",
+    "addPaymentMethod": "Ajouter un Mode de Paiement",
+    "remove": "Supprimer",
+    "confirmLogout": "Confirmer la Déconnexion",
+    "byeForNow": "Au revoir pour l'instant!"
+  }

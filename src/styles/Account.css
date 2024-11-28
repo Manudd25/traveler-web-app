@@ -1,0 +1,238 @@
+/* Account Page Styles */
+.account-page {
+  display: flex;
+  height: 92vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom right, #f4f4f4, #e0e0e0);
+  color: #333;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background: #0a3d62;
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar li {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  background: #0a3d62;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+  text-align: center;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+  background: #3c9dd0;
+  transform: scale(1.05);
+  color: white;
+}
+
+/* Content Area */
+.content {
+  width: 100%;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  text-align: left; /* Align everything to the left */
+}
+
+/* Headings */
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0a3d62;
+  text-align: center; /* Center titles */
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start; /* Align forms to the left */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align form groups to the left */
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+  text-align: left; /* Align labels to the left */
+}
+
+input,
+select {
+  background-color: #fff;
+  color: #333;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 30%;
+  text-align: left;
+}
+
+
+input::placeholder,
+select::placeholder {
+  text-align: left; /* Align placeholders to the left */
+  color: #aaa; /* Optional: Adjust placeholder color */
+}
+
+input:focus,
+select:focus {
+  border-color: #3c9dd0;
+  box-shadow: 0 0 5px rgba(60, 157, 208, 0.5);
+}
+
+/* Language Dropdown */
+select.language-dropdown {
+  background-color: #0a3d62;
+  color: white;
+}
+
+/* Buttons */
+.btn-submit,
+.remove-payment-button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 25%;
+  font-weight: bold;
+  align-self: flex-start; /* Align buttons to the left */
+}
+
+.btn-logout {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 25%;
+  font-weight: bold;
+  align-self: flex-start; /* Align logout button to the left */
+}
+
+.btn-submit {
+  background: #0a3d62;
+  color: white;
+}
+
+.btn-submit:hover {
+  background: #3c9dd0;
+  transform: scale(1.05);
+}
+
+.btn-logout {
+  background: #e63946;
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #d62828;
+  transform: scale(1.05);
+}
+
+.remove-payment-button {
+  background: #e63946;
+  color: white;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.remove-payment-button:hover {
+  background: #d62828;
+  transform: scale(1.05);
+}
+
+/* History List */
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-list li {
+  padding: 0.75rem;
+  background: #f4f4f4;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  text-align: left; /* Align history list items to the left */
+}
+
+.history-list li:hover {
+  background: #e9ecef;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Payment Method List */
+.payment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  align-items: flex-start; /* Align payment method items to the left */
+}
+
+.payment-method:hover {
+  background: #e9ecef;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar */
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #3c9dd0;
+  border-radius: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}

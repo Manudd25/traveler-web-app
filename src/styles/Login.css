@@ -1,0 +1,78 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #0a3d62, #3c9dd0, #a1d6ff);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+  }
+  
+  .form-card {
+    background: #ffffff;
+    color: black;
+    width: 400px;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-bottom: 8rem;
+  }
+
+  .login-page button {
+    margin: 0 auto;
+  }
+
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    width: 90%;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: blue;
+  }
+  
+  
+  .btn-submit:hover {
+    background: #3c9dd0;
+    transform: scale(1.05);
+  }
+  
+  .toggle-text {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .toggle-link {
+    color: #0a3d62;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .toggle-link:hover {
+    color: #3c9dd0;
+  }
+  

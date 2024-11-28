@@ -1,0 +1,26 @@
+ {
+      "welcome": "Welcome, Traveler!",
+      "bookingHistory": "Booking History",
+      "personalDetails": "Personal Details",
+      "paymentDetails": "Payment Details",
+      "changeLanguage": "Change Language",
+      "logout": "Log Out",
+      "fullName": "Full Name",
+      "email": "Email",
+      "dateOfBirth": "Date of Birth",
+      "saveChanges": "Save Changes",
+      "cardNumber": "Card Number",
+      "expiryDate": "Expiry Date",
+      "updatePaymentMethod": "Update Payment Method",
+      "addPaymentMethod": "Add Payment Method",
+      "remove": "Remove",
+      "confirmLogout": "Confirm Logout",
+      "byeForNow": "Bye for now!"
+
+    }
+    
+    
+    
+ 
+
+  

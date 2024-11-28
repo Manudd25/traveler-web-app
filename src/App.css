@@ -1,0 +1,216 @@
+/* General Layout */
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(to bottom right, #0a3d62, #3c9dd0, #a1d6ff);
+  color: white;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Header Section */
+.header {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap; /* Makes the header elements stack on smaller screens */
+}
+
+.header-content h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: bold;
+  flex: 1;
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  color: #ccc;
+  flex: 1;
+}
+
+.account-btn {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Prevents button from shrinking */
+}
+
+.account-btn:hover {
+  background-color: #e65a50;
+  box-shadow: 0 4px 10px rgba(255, 111, 97, 0.5);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+/* Map Section */
+.map-section {
+  margin: 20px 0;
+  text-align: center;
+  color: #ddd;
+}
+
+.map-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.map-section p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.map-container {
+  width: 100%;
+  height: 300px; 
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.map-container canvas {
+  border-radius: 10px; /* Ensures rounded corners */
+}
+
+/* Categories Section */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category-item {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Overlay for text visibility */
+  z-index: 0;
+}
+
+.category-item h3,
+.category-item p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+  color: #f0a500;
+}
+
+.category-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.category-item p {
+  font-size: 1rem;
+}
+
+.mapboxgl-ctrl {
+  display: none;
+}
+
+/* Responsive Design */
+/* For tablets */
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 2rem;
+  }
+
+  .map-container {
+    height: 250px; /* Adjust map height for tablets */
+  }
+
+  .categories {
+    grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .header {
+    padding: 10px 20px; /* Reduce padding for smaller screens */
+    flex-direction: column; /* Stack header content vertically */
+    align-items: flex-start;
+  }
+
+  .account-btn {
+    margin-top: 10px; /* Add space between button and text */
+  }
+
+  .header-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .header-content p {
+    font-size: 1rem;
+  }
+
+  .map-container {
+    height: 200px; /* Adjust map height for mobile */
+  }
+
+  .categories {
+    grid-template-columns: 1fr; /* Single column for mobile */
+  }
+
+  .category-item {
+    height: 200px; /* Adjust card height for mobile */
+  }
+
+  .category-item h3 {
+    font-size: 1.2rem; /* Adjust heading size */
+  }
+
+  .category-item p {
+    font-size: 0.9rem; /* Adjust paragraph size */
+  }
+}

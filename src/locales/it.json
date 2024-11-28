@@ -1,0 +1,20 @@
+{
+    "welcome": "Benvenuto, Viaggiatore!",
+    "bookingHistory": "Storico Prenotazioni",
+    "personalDetails": "Dettagli Personali",
+    "paymentDetails": "Dettagli di Pagamento",
+    "changeLanguage": "Cambia Lingua",
+    "logout": "Disconnettiti",
+    "fullName": "Nome Completo",
+    "email": "Indirizzo Email",
+    "dateOfBirth": "Data di Nascita",
+    "saveChanges": "Salva Modifiche",
+    "cardNumber": "Numero della Carta",
+    "expiryDate": "Data di Scadenza",
+    "updatePaymentMethod": "Aggiorna Metodo di Pagamento",
+    "addPaymentMethod": "Aggiungi Metodo di Pagamento",
+    "remove": "Rimuovi",
+    "confirmLogout": "Conferma Disconnessione",
+    "byeForNow": "Arrivederci!"
+
+  }

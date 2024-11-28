@@ -1,0 +1,158 @@
+/* Favorites Container */
+.favorites-container {
+  padding: 20px;
+  width: 90%;
+  margin: 0 auto;
+  background-color: #eef6ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.favorites-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #0a3d62;
+}
+
+/* Export Button */
+.export-btn {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #3c9dd0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-btn:hover {
+  background-color: #68b5e8;
+}
+
+/* Favorites List */
+.favorites-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ensure cards take equal space */
+  gap: 20px;
+  justify-items: center; /* Center-align cards */
+  align-items: start; /* Align items at the top */
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Favorite Card */
+.favorite-card {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* Ensure cards stretch evenly */
+  max-width: 300px; /* Keep a consistent size */
+  min-height: 400px; /* Maintain consistent card height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.favorite-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Favorite Image */
+.favorite-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Favorite Info */
+.favorite-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorite-info h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #333;
+}
+
+.favorite-info p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.favorite-info strong {
+  font-size: 1rem;
+  color: #0a3d62;
+}
+
+/* Favorite Icon */
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2;
+  color: red;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.2);
+}
+
+.export-btn {
+  margin-top: 2rem;
+  padding: 10px 20px;
+  background-color: #3c9dd0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-btn:hover {
+  background-color: #68b5e8;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .favorites-container {
+    padding: 15px;
+  }
+
+  .favorites-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .favorite-card {
+    min-height: 350px;
+  }
+
+  .favorite-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .favorite-info p {
+    font-size: 0.9rem;
+  }
+
+  .export-btn {
+    font-size: 0.9rem;
+  }
+}
