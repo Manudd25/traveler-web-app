@@ -180,19 +180,19 @@ const TableBooking = () => {
     <div className="table-booking-container">
       {/* Step Indicator */}
       <div className="step-indicator">
-        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>1</div>
+        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>1. Choose your table</div>
         <div
           className={`step-line ${currentStep > 1 ? "completed" : ""}`}
         ></div>
-        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>2</div>
+        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>2. Booking Details</div>
         <div
           className={`step-line ${currentStep > 2 ? "completed" : ""}`}
         ></div>
-        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>3</div>
+        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>3. Booking Summary</div>
         <div
           className={`step-line ${currentStep > 3 ? "completed" : ""}`}
         ></div>
-        <div className={`step ${currentStep >= 4 ? "active" : ""}`}>4</div>
+        <div className={`step ${currentStep >= 4 ? "active" : ""}`}>4. Booking Confirmation</div>
       </div>
 
       {currentStep === 1 && (

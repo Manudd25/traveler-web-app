@@ -3,7 +3,7 @@
   padding: 20px;
   padding-bottom: 8rem;
   width: 80%;
-  height: 62%;
+  height: 70%;
   margin: 0 auto; 
   background-color: #eef6ff;
   border-radius: 10px;
@@ -17,7 +17,7 @@
   margin-top: 20px;
   bottom: 50%;
   padding: 10px 20px;
-  background-color: #68b5e8;
+  background-color: #00C7BB;
   color: white;
   border: none;
   border-radius: 5px;
@@ -31,7 +31,7 @@
 }
 
 .table-booking-container button:hover {
-  background-color: #5b9eca;
+  background-color: #008f89;
 }
 
 
@@ -185,7 +185,7 @@
 /* Legend Section */
 .legend {
   position: relative;
-  top: 51%;
+  top: 35%;
   left:70%;
   width: 10%;
   padding: 10px;
@@ -324,7 +324,7 @@
 }
 
 .table-booking-form button:hover:not(:disabled) {
-  background-color: #68b5e8;
+  background-color: #008f89;
 }
 
 /* Step Indicator */
@@ -336,32 +336,22 @@
 }
 
 .step {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #ccc;
-  color: #fff;
-  font-size: 1.2rem;
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 3px solid #ccc;
+  font-size: 14px;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  color: #555;
 }
 
 .step.active {
-  background-color: #3c9dd0;
+  background-color: #00C7BB;
 }
 
 
 
-.step-line {
-  flex-grow: 1;
-  height: 3px;
-  background-color: #ccc;
-  margin: 0 10px;
-  transition: background-color 0.3s ease;
-}
+
 
 
 /* Step Container */
@@ -393,7 +383,7 @@
 
 .booking-recap button {
   padding: 10px 20px;
-  background-color: #68b5e8;
+  background-color: #00C7BB;
   color: white;
   border: none;
   border-radius: 5px;
@@ -408,7 +398,7 @@
 }
 
 .booking-recap button:hover {
-  background-color: #5ca1cf;
+  background-color: #008f89;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator,

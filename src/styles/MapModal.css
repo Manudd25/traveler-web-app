@@ -12,6 +12,7 @@
   }
   
   .modal {
+    margin-top: 8rem;
     width: 90%;
     max-width: 800px;
     background-color: #fff;
