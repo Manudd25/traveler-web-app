@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "traveler-guide",
+  "main": "src/index.js",
+  "compatibility_date": "2025-08-12",
+  "ai": {
+    "binding": "AI"
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "http://localhost:5173,http://127.0.0.1:5173,https://traveler-web-app.surge.sh"
+  }
+}

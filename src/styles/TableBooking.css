@@ -1,491 +1,798 @@
-/* General Layout */
-.table-booking-container {
-  padding: 20px;
-  padding-bottom: 8rem;
-  width: 80%;
-  height: 70%;
-  margin: 0 auto; 
-  background-color: #eef6ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Restaurant booking redesign — palette from design brief */
+.rb-page {
+  --rb-deep: var(--trv-navy, #0b2c4a);
+  --rb-blue: var(--trv-deep, #123a5c);
+  --rb-sky: var(--trv-sky, #3a9fd8);
+  --rb-cyan: var(--trv-cyan, #2ec4b6);
+  --rb-teal: var(--trv-cyan, #2ec4b6);
+  --rb-warm: #f3f4f6;
+  --rb-light: #e5e7eb;
+  --rb-white: #ffffff;
+  --rb-text: var(--trv-text, #1a2b3c);
+  --rb-muted: var(--trv-muted, #5b6b7c);
+  --rb-floor: #f5f0e8;
+  --rb-radius: 12px;
+  --rb-shadow: var(--trv-shadow, 0 8px 24px rgba(11, 44, 74, 0.08));
+
+  max-width: 1100px;
+  margin: 0 auto;
+  color: var(--rb-text);
+  padding-bottom: 2rem;
+}
+
+.rb-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--rb-muted);
+  margin-bottom: 1rem;
+}
+
+.rb-breadcrumb a {
+  color: var(--rb-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.rb-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.rb-restaurant-header {
+  margin-bottom: 1.25rem;
   text-align: center;
 }
 
-
-
-.table-booking-container button {
-  margin-top: 20px;
-  bottom: 50%;
-  padding: 10px 20px;
-  background-color: #00C7BB;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  position: relative;
-  cursor: pointer;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  transition: background-color 0.3s ease;
-
+.rb-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  color: var(--rb-blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 0.75rem;
 }
 
-.table-booking-container button:hover {
-  background-color: #008f89;
+.rb-back:hover {
+  color: var(--rb-teal);
 }
 
-
-.table-booking-container h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #0a3d62;
-  margin-right: 2rem;
-}
-
-
-/* Restaurant Map */
-.restaurant-map {
-  position: relative;
-  bottom: 50%;
+.rb-restaurant-title-row {
   display: flex;
-  flex-wrap: wrap; 
-  justify-content: space-evenly; 
-  align-items: center; 
-  gap: 15px; 
-  background-color: rgb(90, 88, 88);
-  padding: 20px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 35%; 
-  margin-left: 30%;
-  aspect-ratio: 1; /* Keep it square */
-  transform: none;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  text-align: center;
+}
+
+.rb-restaurant-name {
+  margin: 0;
+  font-family: var(--trv-display, Georgia, serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-weight: 600;
+  color: var(--rb-deep);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.rb-restaurant-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.65rem;
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--rb-muted);
+}
+
+.rb-rating {
+  color: var(--rb-deep);
+  font-weight: 600;
+}
+
+.rb-rating .fa-star {
+  color: #f59e0b;
+  margin-right: 0.25rem;
+}
+
+.rb-muted {
+  color: var(--rb-muted);
+  font-weight: 400;
+}
+
+.rb-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.rb-disclaimer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0 auto;
+  padding: 0.55rem 0.85rem;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  border-radius: 8px;
+  color: var(--rb-blue);
+  font-size: 0.8rem;
+  font-weight: 500;
+  max-width: 280px;
+  text-align: center;
+}
+
+.rb-disclaimer--inline {
+  margin-bottom: 1rem;
+  max-width: none;
+}
+
+.rb-disclaimer--footer {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto 0.35rem;
+  max-width: 28rem;
+  text-align: center;
+}
+
+.rb-disclaimer i {
+  color: var(--rb-cyan);
+}
+
+/* Stepper */
+.rb-stepper {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  background: var(--rb-white);
+  border: 1px solid var(--rb-light);
+  border-radius: var(--rb-radius);
+  box-shadow: var(--rb-shadow);
+}
+
+.rb-step {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  color: var(--rb-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.rb-step-index {
+  flex-shrink: 0;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--rb-warm);
+  color: var(--rb-muted);
+  border: 2px solid transparent;
+}
+
+.rb-step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rb-step--current {
+  color: var(--rb-deep);
+  font-weight: 600;
+}
+
+.rb-step--current .rb-step-index {
+  background: var(--rb-teal);
+  color: #fff;
+}
+
+.rb-step--done .rb-step-index {
+  background: #ccfbf1;
+  color: var(--rb-teal);
+  border-color: #99f6e4;
+}
+
+.rb-step--done {
+  color: var(--rb-teal);
+}
+
+/* Step 1 layout */
+.rb-step1-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(240px, 0.85fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.rb-floor-heading {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  text-align: center;
+}
+
+.rb-floor-heading h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--rb-deep);
+  font-family: var(--trv-display, Georgia, serif);
+  text-align: center;
+}
+
+.rb-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--rb-muted);
+}
+
+.rb-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rb-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.rb-swatch--available {
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+}
+
+.rb-swatch--selected {
+  background: var(--rb-teal);
+  border: 2px solid var(--rb-teal);
+}
+
+.rb-swatch--reserved {
+  background: #1e3a5f;
+  border: 2px solid #0d1b2a;
+}
+
+/* Floor plan */
+.rb-floor-plan {
   position: relative;
-  cursor: pointer;
+  width: 100%;
+  aspect-ratio: 1.15 / 1;
+  min-height: 360px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.55), transparent 40%),
+    radial-gradient(circle at 88% 80%, rgba(255, 255, 255, 0.4), transparent 35%),
+    var(--rb-floor);
+  border: 1px solid #e7e0d4;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5), var(--rb-shadow);
+  overflow: hidden;
 }
 
-.restaurant-map h3 {
+.rb-zone {
   position: absolute;
-  font-size: 1rem;
-  color: #0a3d62;
+  z-index: 1;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  pointer-events: none;
+  user-select: none;
 }
 
-.restaurant-map .wall-description {
-  top: -10px;
+.rb-zone--window {
+  top: 3%;
   left: 50%;
   transform: translateX(-50%);
+  padding: 0.2rem 0.8rem;
+  border-bottom: 2px dashed #cbd5e1;
 }
 
-.restaurant-map .window {
-  bottom: 43%;
-  left: -1%;
+.rb-zone--kitchen {
+  top: 42%;
+  right: 2%;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.12em;
+}
+
+.rb-zone--bar {
+  left: 2%;
+  top: 48%;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.rb-zone--entrance {
+  bottom: 3%;
+  left: 50%;
   transform: translateX(-50%);
-  transform: rotate(-91deg);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--rb-blue);
 }
 
-
-
-.legend {
-  color: black;
+.rb-plant {
+  position: absolute;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 45% 55%;
+  background:
+    radial-gradient(circle at 35% 35%, #86efac 0 28%, transparent 30%),
+    radial-gradient(circle at 65% 40%, #4ade80 0 24%, transparent 26%),
+    radial-gradient(circle at 50% 68%, #22c55e 0 22%, transparent 24%);
+  opacity: 0.45;
+  pointer-events: none;
 }
 
-.legend span {
-  border: none;
+.rb-plant--tl {
+  top: 8%;
+  left: 4%;
+}
+
+.rb-plant--tr {
+  top: 8%;
+  right: 8%;
+}
+
+.rb-plant--bl {
+  bottom: 10%;
+  left: 6%;
 }
 
 /* Tables */
-.table {
-  width: 80px; /* Adjust table size */
-  height: 80px;
-  background-color: #00000034;
-  opacity: 1;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.rb-table {
   position: absolute;
-  backdrop-filter: blur(8px); /* Frosted glass blur effect */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Depth shadow */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for glass effect */
-  z-index: 2; /* Ensure table is above seats */
-  transition: all 0.3s ease;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
 }
 
-
-.table.square {
-  width: 87px;
-  height: 87px;
-  border-radius: 15px;
+.rb-table:focus-visible {
+  outline: 3px solid var(--rb-sky);
+  outline-offset: 3px;
 }
 
-.table.round {
-  width: 100x;
-  height: 86px;
+.rb-table:not(:disabled):hover {
+  transform: translate(-50%, -50%) scale(1.04);
+  box-shadow: 0 6px 18px rgba(13, 27, 42, 0.12);
+}
+
+.rb-table--round {
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  z-index: 2;
-
 }
 
-.table.rectangle {
-  width: 88px;
-  height: 80px;
-  border-radius: 15px;
-  z-index: 2;
-
+.rb-table--square {
+  width: 74px;
+  height: 74px;
+  border-radius: 14px;
 }
 
-.table span {
-  font-size: 0.9rem;
-  font-weight: bold;
+.rb-table--rectangle {
+  width: 96px;
+  height: 64px;
+  border-radius: 14px;
 }
 
-/* Seats */
-.seats {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin-top: -4rem;
-  margin-left: 1rem;
+.rb-table-id {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
-/* Individual seat */
-.seat {
-  position: absolute;
-  width: 17px;
-  height: 17px;
-  background-color: #cccccca6;
-  border-radius: 45%;
-  padding: 0.3rem;
-  margin-top: 1.9rem;
-  margin-left: 0.8rem;  
+.rb-table-seats {
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
-.seat.free {
-  background-color: #cccccca9;
-
+/* Available — soft gray fill like mockup */
+.rb-table--available {
+  background: #f8fafc;
+  color: var(--rb-deep);
+  border: 2.5px solid #cbd5e1;
+  box-shadow: 0 2px 8px rgba(13, 27, 42, 0.06);
 }
 
-.seat.occupied {
-  background-color: rgb(255, 0, 0);
+.rb-table--available:hover {
+  border-style: dashed;
+  border-color: #14b8a6;
+  background: #f0fdfa;
 }
 
-.seat.selected {
-  background-color: rgb(255, 255, 0);
+/* Selected — solid teal */
+.rb-table--selected {
+  background: var(--rb-teal);
+  color: #fff;
+  border: 2.5px solid var(--rb-teal);
+  box-shadow: 0 6px 16px rgba(20, 184, 166, 0.35);
 }
 
-/* Layout Wrapper for Legend and Map */
-.layout-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-}
-
-/* Legend Section */
-.legend {
-  position: relative;
-  top: 35%;
-  left:70%;
-  width: 10%;
-  padding: 10px;
-  background-color: #eef6ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rga(0, 0, 0, 0.1);
-  text-align: left;
-}
-
-.legend h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #0a3d62;
-  text-align: left;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.legend-item span {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border-radius: 5px;
-
-}
-
-.legend .status {
-  margin-left: 2rem;
-}
-
-.legend-item .table.free {
-  background-color: rgb(131, 133, 131, 0.822);
-}
-
-.legend-item .table.occupied {
-  background-color: rgba(255, 0, 0, 0.849);
-}
-
-.legend-item .table.selected {
-  background-color: yellow;
-}
-
-/* Facilities Section */
-.facilities {
-  width: 15%;
-  position: relative;
-  text-align: left;
-  top: -8%;
-  background-color: #eef6ff;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.facilities h3 {
-  font-size: 1.2rem;
-  color: #0a3d62;
-  text-align: left;
-  margin-left: 1rem;
-}
-
-.facilities ul {
-  list-style-type: none;
-  padding-left: 20px;
-}
-
-.facilities ul li {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 5px;
-  text-align: left;
-}
-
-/* Booking Form */
-.table-booking-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  text-align: center;
-  background-color: #eef6ff;
-  border-radius: 10px;
-  width: 40%;
-  margin: auto;
-  color: black;
-  top: -1%; 
-}
-
-
-.table-booking-form h2 {
-  font-size: 2rem;
-  color: #0a3d62;
-  text-align: center;
-}
-
-.table-booking-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1rem;
-  color: #333;
-}
-
-.table-booking-form input {
-  width: 95%;
-  text-align: center;
-  padding: 10px;
-  margin-bottom: 5px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
-}
-
-
-.table-booking-form button {
-  position: relative;
-  padding: 10px 20px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-right: 2rem;
-  left: 20%;
-  transition: background-color 0.3s ease;
-}
-
-.table-booking-form button:disabled {
-  background-color: #ccc;
+/* Reserved — deep navy/gray */
+.rb-table--reserved {
+  background: #1e3a5f;
+  color: #cbd5e1;
+  border: 2px solid #0d1b2a;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.table-booking-form button:hover:not(:disabled) {
-  background-color: #008f89;
+.rb-swatch--available {
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
 }
 
-/* Step Indicator */
-.step-indicator {
-  display: flex;
-  justify-content: space-evenly;
+.rb-swatch--selected {
+  background: var(--rb-teal);
+  border: 2px solid var(--rb-teal);
+}
+
+.rb-swatch--reserved {
+  background: #1e3a5f;
+  border: 2px solid #0d1b2a;
+}
+
+.rb-table--reserved:hover {
+  transform: translate(-50%, -50%);
+  box-shadow: none;
+}
+
+/* Side panel */
+.rb-side-panel {
+  position: sticky;
+  top: 4.5rem;
+}
+
+.rb-table-card {
+  background: var(--rb-white);
+  border: 1px solid var(--rb-light);
+  border-radius: var(--rb-radius);
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--rb-shadow);
+}
+
+.rb-table-card-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rb-teal);
+}
+
+.rb-table-card h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--rb-deep);
+  font-family: var(--trv-display, Georgia, serif);
+}
+
+.rb-table-card-meta {
+  margin: 0.4rem 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--rb-muted);
+  font-weight: 500;
+}
+
+.rb-table-card-desc {
+  margin: 0 0 1.15rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.rb-helper {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--rb-muted);
+  text-align: center;
+}
+
+.rb-table-card--empty {
+  background: var(--rb-warm);
+}
+
+.rb-table-card--empty h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.rb-table-card--empty p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--rb-muted);
+  line-height: 1.45;
+}
+
+/* Buttons */
+.rb-btn {
+  display: inline-flex;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.step {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-  border-bottom: 3px solid #ccc;
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-}
-
-.step.active {
-  background-color: #00C7BB;
-}
-
-
-
-
-
-
-/* Step Container */
-.step-container {
-  margin-bottom: 20px;
-}
-
-/* Booking Recap */
-
-.booking-recap p {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 4rem;
-  color: black;
-  margin-bottom: 20px;
-  padding-top: 1rem;
-}
-
-
-.booking-recap h2 {
-  margin-left: 2rem;
-  margin-top: 2.5rem;
-}
-
-.booking-recap .action-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.booking-recap button {
-  padding: 10px 20px;
-  background-color: #00C7BB;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 7rem;
-  transition: background-color 0.3s ease;
-}
-
-.booking-confirmation h2 {
-  margin-left: 2rem;
-}
-
-.booking-recap button:hover {
-  background-color: #008f89;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1); /* Invert colors to make the icon black */
-  opacity: 1; /* Ensure icon is fully visible */
-}
-
-
-/* Booking Confirmation */
-
-.booking-confirmation {
-  position: relative;
-  text-align: left;
-  background-color: #eef6ff;
-  padding: 20px;
+  justify-content: center;
+  gap: 0.4rem;
   border-radius: 10px;
-  width: 25%;
-  margin: 0 auto;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.rb-btn:active {
+  transform: translateY(1px);
+}
+
+.rb-btn:focus-visible {
+  outline: 3px solid var(--rb-sky);
+  outline-offset: 2px;
+}
+
+.rb-btn-primary {
+  width: 100%;
+  background: var(--rb-teal);
+  color: #fff;
+  border-color: var(--rb-teal);
+}
+
+.rb-btn-primary:hover {
+  background: #0f9f8f;
+}
+
+.rb-btn-secondary {
+  background: var(--rb-white);
+  color: var(--rb-deep);
+  border-color: var(--rb-light);
+}
+
+.rb-btn-secondary:hover {
+  border-color: var(--rb-cyan);
+  background: #f8fafc;
+}
+
+/* Forms / later steps */
+.rb-form-panel {
+  background: var(--rb-white);
+  border: 1px solid var(--rb-light);
+  border-radius: var(--rb-radius);
+  padding: 1.5rem;
+  box-shadow: var(--rb-shadow);
+  max-width: 560px;
+}
+
+.rb-form-panel h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--trv-display, Georgia, serif);
+  color: var(--rb-deep);
+  font-size: 1.35rem;
   text-align: center;
-  color: black;
 }
 
-.confirm-booking {
-  color: black;
+.rb-form-intro {
+  margin: 0 0 1.25rem;
+  color: var(--rb-muted);
+  font-size: 0.92rem;
+  text-align: center;
 }
 
+.rb-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
 
+.rb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 
+.rb-field--full {
+  grid-column: 1 / -1;
+}
 
-/* Responsive Design for Steps */
-@media (max-width: 768px) {
-  .step-indicator {
-    flex-wrap: wrap;
+.rb-field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-field input {
+  border: 1px solid var(--rb-light);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  color: var(--rb-text);
+  background: #fff;
+}
+
+.rb-field input:focus {
+  outline: 2px solid rgba(34, 211, 238, 0.45);
+  border-color: var(--rb-cyan);
+}
+
+.rb-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.rb-form-actions .rb-btn-primary,
+.rb-form-actions .rb-btn-secondary {
+  width: auto;
+  min-width: 140px;
+}
+
+.rb-summary {
+  margin: 0 0 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.rb-summary > div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.5rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--rb-warm);
+}
+
+.rb-summary dt {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-summary dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--rb-deep);
+  font-weight: 500;
+}
+
+.rb-confirm {
+  text-align: center;
+  max-width: 640px;
+}
+
+.rb-confirm-badge {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #ccfbf1;
+  color: var(--rb-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.rb-confirm p {
+  color: var(--rb-muted);
+  line-height: 1.5;
+}
+
+.rb-confirm-details {
+  font-weight: 600;
+  color: var(--rb-deep) !important;
+  margin-bottom: 1.25rem;
+}
+
+.rb-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.rb-confirm-actions .rb-btn {
+  width: auto;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .rb-step1-layout {
+    grid-template-columns: 1fr;
   }
 
-  .step {
-    margin-bottom: 10px;
+  .rb-side-panel {
+    position: static;
   }
 
-  .step-line {
-    display: none;
+  .rb-stepper {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rb-floor-plan {
+    aspect-ratio: 1;
+    min-height: 320px;
   }
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .booking-form, .booking-confirmation, .booking-recap {
-    width: 80%;
+@media (max-width: 560px) {
+  .rb-stepper {
+    grid-template-columns: 1fr;
   }
 
-  .step-indicator {
-    gap: 5px;
+  .rb-step-label {
+    white-space: normal;
   }
 
-  .step {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
+  .rb-form {
+    grid-template-columns: 1fr;
   }
 
-  .booking-confirmation p, .booking-recap p {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .booking-form, .booking-confirmation, .booking-recap {
-    width: 90%;
-    padding: 15px;
+  .rb-table--round,
+  .rb-table--square {
+    width: 58px;
+    height: 58px;
   }
 
-  .step {
-    width: 1.8rem;
-    height: 1.8rem;
-    font-size: 0.8rem;
+  .rb-table--rectangle {
+    width: 76px;
+    height: 52px;
   }
 
-  .booking-confirmation p, .booking-recap p {
-    font-size: 0.8rem;
+  .rb-table-id {
+    font-size: 0.75rem;
   }
 
-  .step-line {
-    display: none; /* Hide step lines on smaller screens */
+  .rb-table-seats {
+    font-size: 0.58rem;
   }
 
-  .booking-recap .action-buttons {
-    flex-wrap: wrap;
+  .rb-summary > div {
+    grid-template-columns: 1fr;
   }
 }

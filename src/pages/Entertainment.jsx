@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import "../styles/Entertainment.css";
 import { useFavorite } from "../contexts/FavoriteContext";
-
+import { useTripDestination } from "../hooks/useTripDestination";
 
 const Entertainment = () => {
   const [discos, setDiscos] = useState([]);
   const [loadingDiscos, setLoadingDiscos] = useState(true);
-  const { favorites, toggleFavorite } = useFavorite(); 
+  const { favorites, toggleFavorite } = useFavorite();
+  const { cityName, around, tripKey, ready } = useTripDestination();
   const [concerts] = useState([
     {
       id: "1",
@@ -64,14 +64,15 @@ const Entertainment = () => {
   ];
 
   useEffect(() => {
+    if (!ready) return;
+
     const fetchDiscos = async () => {
       setLoadingDiscos(true);
 
       try {
-        // Overpass API query for discos in Rome
         const query = `
           [out:json];
-          node["amenity"="nightclub"](41.8902,12.4922,41.9029,12.5000);
+          node["amenity"="nightclub"]${around};
           out body;
         `;
         const response = await fetch(
@@ -98,67 +99,66 @@ const Entertainment = () => {
     };
 
     fetchDiscos();
-  }, []);
+  }, [ready, tripKey, around, cityName]);
 
   return (
-    <div className="entertainment-container">
-      <h2>Entertainment in Rome</h2>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Entertainment</h1>
+          <p>Near {cityName} · based on your active trip</p>
+        </div>
+      </div>
 
       <section>
-        <h3>Discos</h3>
+        <h2 className="trv-section-title">Discos</h2>
         {loadingDiscos ? (
-        <img src="/loading.gif" style={{width: "300px", background: "#eef6ff"}} alt="loading" />
-
+          <div className="trv-loading"><img src="/loading.gif" alt="Loading" /></div>
         ) : discos.length === 0 ? (
-          <p>No discos found in the specified area.</p>
+          <div className="trv-empty">
+            <h3>No results</h3>
+            <p>No discos found near {cityName}.</p>
+          </div>
         ) : (
-          <div className="disco-list">
+          <div className="trv-venue-grid">
             {discos.map((disco) => (
-              <div key={disco.id} className="disco-card">
-                <div className="favorite-icon" onClick={() => toggleFavorite(disco)}>
-                    {favorites.some((fav) => fav.id === disco.id) ? "❤️" : "🤍"}
-                  </div>
-                <img
-                  src={disco.image}
-                  alt={disco.name}
-                  className="disco-image"
-                />
-                <div className="disco-info">
+              <article key={disco.id} className="trv-venue-card">
+                <button type="button" className="trv-fav" onClick={() => toggleFavorite(disco)} aria-label="Toggle favorite">
+                  {favorites.some((fav) => fav.id === disco.id) ? "❤️" : "🤍"}
+                </button>
+                <img src={disco.image} alt={disco.name} className="trv-venue-image" loading="lazy" decoding="async" />
+                <div className="trv-venue-body">
                   <h3>{disco.name}</h3>
-                  <p>{disco.description}</p>
-                  <p>
+                  <p className="trv-venue-meta">{disco.description}</p>
+                  <p className="trv-venue-meta">
                     <strong>Opening Hours:</strong> {disco.openingHours}
                   </p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
       </section>
 
       <section>
-        <h3>Upcoming Concerts</h3>
-        <div className="concert-list">
+        <h2 className="trv-section-title">Upcoming Concerts</h2>
+        <div className="trv-venue-grid">
           {concerts.map((concert) => (
-            <div key={concert.id} className="concert-card">
-              <div className="favorite-icon" onClick={() => toggleFavorite(concert)}>
-                    {favorites.some((fav) => fav.id === concert.id) ? "❤️" : "🤍"}
-                  </div>
-              <img
-                src={concert.image}
-                alt={concert.name}
-                className="concert-image"
-              />
-              <div className="concert-info">
+            <article key={concert.id} className="trv-venue-card">
+              <button type="button" className="trv-fav" onClick={() => toggleFavorite(concert)} aria-label="Toggle favorite">
+                {favorites.some((fav) => fav.id === concert.id) ? "❤️" : "🤍"}
+              </button>
+              <img src={concert.image} alt={concert.name} className="trv-venue-image" loading="lazy" decoding="async" />
+              <div className="trv-venue-body">
                 <h3>{concert.name}</h3>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Date:</strong> {concert.date}
                 </p>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Location:</strong> {concert.location}
                 </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>

@@ -1,387 +1,551 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import "../styles/TableBooking.css";
 import { jsPDF } from "jspdf";
 import { useNotification } from "../contexts/NotificationContext";
+import { useTrip } from "../contexts/TripContext";
+import { BOOKING_TYPES } from "../data/constants";
+
+const STEPS = [
+  { id: 1, label: "Choose table" },
+  { id: 2, label: "Select date, time, guests" },
+  { id: 3, label: "Review and confirm" },
+  { id: 4, label: "Confirmation" },
+];
+
+/** Floor plan tables — positions relative to the floor canvas */
+const INITIAL_TABLES = [
+  {
+    id: "T1",
+    status: "available",
+    seats: 2,
+    left: "18%",
+    top: "22%",
+    shape: "round",
+    area: "Window",
+    description: "Intimate two-top by the window. Ideal for a quiet dinner.",
+  },
+  {
+    id: "T2",
+    status: "available",
+    seats: 4,
+    left: "42%",
+    top: "20%",
+    shape: "square",
+    area: "Indoor",
+    description: "Central square table with easy access to the bar.",
+  },
+  {
+    id: "T3",
+    status: "reserved",
+    seats: 4,
+    left: "68%",
+    top: "22%",
+    shape: "round",
+    area: "Indoor",
+    description: "Round table near the kitchen pass.",
+  },
+  {
+    id: "T4",
+    status: "available",
+    seats: 6,
+    left: "22%",
+    top: "48%",
+    shape: "rectangle",
+    area: "Window",
+    description: "Long table for groups — great natural light from the window wall.",
+  },
+  {
+    id: "T5",
+    status: "reserved",
+    seats: 2,
+    left: "48%",
+    top: "46%",
+    shape: "round",
+    area: "Indoor",
+    description: "Compact round table in the centre of the room.",
+  },
+  {
+    id: "T6",
+    status: "available",
+    seats: 4,
+    left: "72%",
+    top: "48%",
+    shape: "square",
+    area: "Indoor",
+    description: "Perfect for small groups and located in a quiet area. Near the bar.",
+  },
+  {
+    id: "T7",
+    status: "available",
+    seats: 6,
+    left: "28%",
+    top: "74%",
+    shape: "rectangle",
+    area: "Indoor",
+    description: "Spacious rectangular table close to the entrance.",
+  },
+  {
+    id: "T8",
+    status: "available",
+    seats: 4,
+    left: "58%",
+    top: "76%",
+    shape: "round",
+    area: "Indoor",
+    description: "Round four-top with a clear view of the room.",
+  },
+  {
+    id: "T9",
+    status: "reserved",
+    seats: 2,
+    left: "80%",
+    top: "72%",
+    shape: "round",
+    area: "Bar",
+    description: "High-top style seating near the bar counter.",
+  },
+];
+
+const AREA_LABEL = {
+  Window: "Window",
+  Indoor: "Indoor",
+  Bar: "Bar",
+  Terrace: "Terrace",
+};
 
 const TableBooking = () => {
+  const { restaurantId } = useParams();
   const { addNotification } = useNotification();
-  const [tables, setTables] = useState([
-    {
-      id: "T1",
-      status: "free",
-      seats: 4,
-      left: "15%",
-      top: "20%",
-      rotation: 0,
-      shape: "round",
-    },
-    {
-      id: "T2",
-      status: "free",
-      seats: 6,
-      left: "45%",
-      top: "20%",
-      rotation: 0,
-      shape: "rectangle",
-    },
-    {
-      id: "T3",
-      status: "occupied",
-      seats: 4,
-      left: "15%",
-      top: "50%",
-      rotation: 0,
-      shape: "square",
-    },
-    {
-      id: "T4",
-      status: "free",
-      seats: 4,
-      left: "76%",
-      top: "50%",
-      rotation: 0,
-      shape: "round",
-    },
-    {
-      id: "T5",
-      status: "free",
-      seats: 6,
-      left: "48%",
-      top: "40%",
-      rotation: 90,
-      shape: "rectangle",
-    },
-    {
-      id: "T6",
-      status: "free",
-      seats: 4,
-      left: "75%",
-      top: "20%",
-      rotation: 0,
-      shape: "square",
-    },
-    {
-      id: "T7",
-      status: "occupied",
-      seats: 4,
-      left: "15%",
-      top: "82%",
-      rotation: 0,
-      shape: "round",
-    },
-    {
-      id: "T8",
-      status: "free",
-      seats: 6,
-      left: "78%",
-      top: "72%",
-      rotation: 90,
-      shape: "rectangle",
-    },
-    {
-      id: "T9",
-      status: "free",
-      seats: 4,
-      left: "47%",
-      top: "83%",
-      rotation: 0,
-      shape: "square",
-    },
-  ]);
+  const { activeTrip, confirmBooking } = useTrip();
 
+  const [tables, setTables] = useState(INITIAL_TABLES);
   const [selectedTable, setSelectedTable] = useState(null);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(activeTrip?.startDate || "");
   const [time, setTime] = useState("");
   const [numberOfPersons, setNumberOfPersons] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
 
-  const restaurantName = "The Gourmet Spot";
-  const restaurantAddress = "123 Culinary Lane, Flavor Town, FT 45678";
+  const restaurant = useMemo(() => {
+    const raw =
+      !restaurantId || restaurantId === "undefined"
+        ? "A Tasca do Bairro"
+        : decodeURIComponent(restaurantId).replace(/[-_]/g, " ");
+    const name = raw.replace(/\b\w/g, (c) => c.toUpperCase());
+    return {
+      name,
+      rating: 4.6,
+      reviews: 128,
+      cuisine: "Portuguese · Traditional",
+      address: "Rua da Rosa 123, Lisbon",
+    };
+  }, [restaurantId]);
+
+  const selectedMeta = tables.find((t) => t.id === selectedTable);
+
+  const visualStatus = (status) => {
+    if (status === "free") return "available";
+    if (status === "occupied") return "reserved";
+    return status;
+  };
 
   const handleTableClick = (id) => {
     setTables((prevTables) =>
       prevTables.map((table) => {
+        const status = visualStatus(table.status);
+        if (status === "reserved") return table;
         if (table.id === id) {
           return {
             ...table,
-            status: table.status === "selected" ? "free" : "selected",
+            status: status === "selected" ? "available" : "selected",
           };
         }
         return {
           ...table,
-          status: table.status === "selected" ? "free" : table.status,
+          status: status === "selected" ? "available" : table.status,
         };
       })
     );
-    setSelectedTable((prevSelected) => (prevSelected === id ? null : id));
+    setSelectedTable((prev) => (prev === id ? null : id));
   };
 
-  const handleBack = () => {
-    setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
-  };
-
-  const handleDateChange = (e) => {
-    const dateValue = e.target.value;
-    const [day, month, year] = dateValue.split("-");
-    setDate(`${day}/${month}/${year}`);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const goToDetails = () => {
     if (!selectedTable) {
-      alert("Please select a table before confirming your booking!");
+      addNotification({
+        title: "Select a table",
+        message: "Please choose an available table on the floor plan.",
+      });
       return;
     }
-    setCurrentStep(3); // Proceed to step 3
+    setCurrentStep(2);
+  };
+
+  const handleDetailsSubmit = (e) => {
+    e.preventDefault();
+    if (!date || !time || !numberOfPersons) {
+      addNotification({
+        title: "Missing details",
+        message: "Date, time, and party size are required.",
+      });
+      return;
+    }
+    const guests = Number(numberOfPersons);
+    if (selectedMeta && guests > selectedMeta.seats) {
+      addNotification({
+        title: "Too many guests",
+        message: `Table ${selectedMeta.id} seats up to ${selectedMeta.seats}.`,
+      });
+      return;
+    }
+    setCurrentStep(3);
   };
 
   const handleBookingConfirmation = () => {
+    setTables((prev) =>
+      prev.map((t) => (t.id === selectedTable ? { ...t, status: "reserved" } : t))
+    );
+
+    const guests = Number(numberOfPersons) || 1;
+    const estimated = guests * 28;
+
+    if (activeTrip) {
+      confirmBooking(activeTrip.id, {
+        type: BOOKING_TYPES.RESTAURANT,
+        title: `Dinner at ${restaurant.name}`,
+        date,
+        time,
+        totalPrice: estimated,
+        location: restaurant.name,
+        notes: dietaryRestrictions || `Table ${selectedTable}`,
+        details: {
+          tableId: selectedTable,
+          guests,
+          area: selectedMeta?.area,
+          capacity: selectedMeta?.seats,
+          dietaryRestrictions,
+          restaurantAddress: restaurant.address,
+        },
+      });
+    }
+
     addNotification({
-      name: restaurantName,
-      details: `Table: ${selectedTable}, Date: ${date}, Time: ${time}, People: ${numberOfPersons}`,
+      title: "Table reserved",
+      message: `Demo booking · ${restaurant.name} · Table ${selectedTable} · ${date} ${time}`,
+      type: "success",
     });
-    setCurrentStep(4); // Proceed to step 4
+    setCurrentStep(4);
   };
 
   const handleEmail = () => {
-    const emailBody = `Booking Details:\n\nRestaurant: ${restaurantName}\nAddress: ${restaurantAddress}\nTable: ${selectedTable}\nDate: ${date}\nTime: ${time}\nNumber of Persons: ${numberOfPersons}\nDietary Restrictions: ${
+    const body = `Booking Details:\n\nRestaurant: ${restaurant.name}\nAddress: ${restaurant.address}\nTable: ${selectedTable}\nDate: ${date}\nTime: ${time}\nGuests: ${numberOfPersons}\nNotes: ${
       dietaryRestrictions || "None"
-    }`;
-    const mailtoLink = `mailto:?subject=Your Booking Details&body=${encodeURIComponent(
-      emailBody
-    )}`;
-    window.location.href = mailtoLink;
+    }\n\nDemo booking — no real reservation will be made.`;
+    window.location.href = `mailto:?subject=Your Booking Details&body=${encodeURIComponent(body)}`;
   };
 
   const handleSms = () => {
-    const smsBody = `Booking Details: Restaurant: ${restaurantName}, Address: ${restaurantAddress}, Table: ${selectedTable}, Date: ${date}, Time: ${time}, Number of Persons: ${numberOfPersons}, Dietary Restrictions: ${
-      dietaryRestrictions || "None"
-    }`;
-    const smsLink = `sms:?body=${encodeURIComponent(smsBody)}`;
-    window.location.href = smsLink;
+    const sms = `Demo booking: ${restaurant.name}, Table ${selectedTable}, ${date} ${time}, ${numberOfPersons} guests`;
+    window.location.href = `sms:?body=${encodeURIComponent(sms)}`;
   };
 
   const handlePdfDownload = () => {
     const doc = new jsPDF();
-    doc.text("Booking Details", 10, 10);
-    doc.text(`Restaurant: ${restaurantName}`, 10, 20);
-    doc.text(`Address: ${restaurantAddress}`, 10, 30);
+    doc.text("Restaurant Booking (Demo)", 10, 10);
+    doc.text(`Restaurant: ${restaurant.name}`, 10, 20);
+    doc.text(`Address: ${restaurant.address}`, 10, 30);
     doc.text(`Table: ${selectedTable}`, 10, 40);
-    doc.text(`Date: ${date}`, 10, 50);
-    doc.text(`Time: ${time}`, 10, 60);
-    doc.text(`Number of Persons: ${numberOfPersons}`, 10, 70);
-    doc.text(`Dietary Restrictions: ${dietaryRestrictions || "None"}`, 10, 80);
-
-    doc.save("BookingDetails.pdf");
+    doc.text(`Area: ${selectedMeta?.area || "Indoor"}`, 10, 50);
+    doc.text(`Date: ${date}`, 10, 60);
+    doc.text(`Time: ${time}`, 10, 70);
+    doc.text(`Guests: ${numberOfPersons}`, 10, 80);
+    doc.text(`Notes: ${dietaryRestrictions || "None"}`, 10, 90);
+    doc.text("Demo booking — no real reservation will be made.", 10, 105);
+    doc.save("restaurant_booking.pdf");
   };
 
   return (
-    <div className="table-booking-container">
-      {/* Step Indicator */}
-      <div className="step-indicator">
-        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>1. Choose your table</div>
-        <div
-          className={`step-line ${currentStep > 1 ? "completed" : ""}`}
-        ></div>
-        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>2. Booking Details</div>
-        <div
-          className={`step-line ${currentStep > 2 ? "completed" : ""}`}
-        ></div>
-        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>3. Booking Summary</div>
-        <div
-          className={`step-line ${currentStep > 3 ? "completed" : ""}`}
-        ></div>
-        <div className={`step ${currentStep >= 4 ? "active" : ""}`}>4. Booking Confirmation</div>
-      </div>
+    <div className="rb-page">
+      <nav className="rb-breadcrumb" aria-label="Breadcrumb">
+        <Link to="/bookings">Bookings</Link>
+        <span aria-hidden="true">›</span>
+        <Link to="/restaurants">Restaurants</Link>
+        <span aria-hidden="true">›</span>
+        <span>{restaurant.name}</span>
+      </nav>
+
+      <header className="rb-restaurant-header">
+        <Link to="/restaurants" className="rb-back">
+          <i className="fas fa-arrow-left" aria-hidden="true" />
+          Back to restaurants
+        </Link>
+
+        <div className="rb-restaurant-title-row">
+          <div>
+            <h1 className="rb-restaurant-name">{restaurant.name}</h1>
+            <div className="rb-restaurant-meta">
+              <span className="rb-rating" aria-label={`${restaurant.rating} out of 5 stars`}>
+                <i className="fas fa-star" aria-hidden="true" />
+                {restaurant.rating}
+                <span className="rb-muted"> ({restaurant.reviews} reviews)</span>
+              </span>
+              <span className="rb-dot" aria-hidden="true" />
+              <span>{restaurant.cuisine}</span>
+              <span className="rb-dot" aria-hidden="true" />
+              <span>
+                <i className="fas fa-map-marker-alt" aria-hidden="true" /> {restaurant.address}
+              </span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <ol className="rb-stepper" aria-label="Booking progress">
+        {STEPS.map((step) => {
+          const state =
+            currentStep === step.id ? "current" : currentStep > step.id ? "done" : "upcoming";
+          return (
+            <li key={step.id} className={`rb-step rb-step--${state}`}>
+              <span className="rb-step-index" aria-hidden="true">
+                {currentStep > step.id ? <i className="fas fa-check" /> : step.id}
+              </span>
+              <span className="rb-step-label">{step.label}</span>
+            </li>
+          );
+        })}
+      </ol>
 
       {currentStep === 1 && (
-        <>
-          <h2>Now it’s time to choose your table</h2>
-
-          {/* Legend */}
-          <div className="legend">
-            <h3>Legend</h3>
-            <div className="legend-item">
-              <span className="table free"></span>
-              <span className="status">Free</span>
-            </div>
-            <div className="legend-item">
-              <span className="table occupied"></span>
-              <span className="status">Occupied</span>
-            </div>
-            <div className="legend-item">
-              <span className="table selected"></span>
-              <span className="status">Selected</span>
-            </div>
-          </div>
-
-          {/* General Facilities */}
-          <div className="facilities">
-            <h3>General Facilities</h3>
-            <ul>
-              <li>Free Wi-Fi</li>
-              <li>Wheelchair Accessible</li>
-              <li>Outdoor Seating</li>
-              <li>Pet Friendly</li>
-            </ul>
-          </div>
-
-          <div className="restaurant-map">
-            {tables.map((table) => (
-              <div
-                key={table.id}
-                className="table-container"
-                style={{
-                  position: "absolute",
-                  left: table.left,
-                  top: table.top,
-                  transform: `translate(-50%, -50%) rotate(${table.rotation}deg)`,
-                }}
-                onClick={() => {
-                  if (table.status === "free" || table.status === "selected") {
-                    handleTableClick(table.id);
-                  }
-                }}
-              >
-                {/* Render Seats First */}
-                <div className="seats">
-                  {Array.from({ length: table.seats }).map((_, index) => (
-                    <div
-                      key={index}
-                      className={`seat ${table.status}`} // Apply status only to the seats
-                      style={{
-                        transform: `rotate(${
-                          (360 / table.seats) * index
-                        }deg) translate(50px)`,
-                      }}
-                    ></div>
-                  ))}
-                </div>
-
-                {/* Render Table After Seats */}
-                <div
-                  className={`table ${table.status} ${table.shape}`}
-                  style={{
-                    zIndex: 2, // Ensure table stays above
-                  }}
-                >
-                  <span className="table-id">{table.id}</span>
-                </div>
+        <section className="rb-step-panel" aria-labelledby="rb-step1-title">
+          <div className="rb-step1-layout">
+            <div className="rb-floor-column">
+              <div className="rb-floor-heading">
+                <h2 id="rb-step1-title">Choose your table</h2>
+                <ul className="rb-legend" aria-label="Table status legend">
+                  <li>
+                    <span className="rb-swatch rb-swatch--available" aria-hidden="true" />
+                    Available
+                  </li>
+                  <li>
+                    <span className="rb-swatch rb-swatch--selected" aria-hidden="true" />
+                    Selected
+                  </li>
+                  <li>
+                    <span className="rb-swatch rb-swatch--reserved" aria-hidden="true" />
+                    Reserved
+                  </li>
+                </ul>
               </div>
-            ))}
+
+              <div className="rb-floor-plan" role="group" aria-label="Restaurant floor plan">
+                <span className="rb-zone rb-zone--window">Window</span>
+                <span className="rb-zone rb-zone--kitchen">Kitchen</span>
+                <span className="rb-zone rb-zone--bar">Bar</span>
+                <span className="rb-zone rb-zone--entrance">
+                  Entrance <i className="fas fa-arrow-down" aria-hidden="true" />
+                </span>
+                <span className="rb-plant rb-plant--tl" aria-hidden="true" />
+                <span className="rb-plant rb-plant--tr" aria-hidden="true" />
+                <span className="rb-plant rb-plant--bl" aria-hidden="true" />
+
+                {tables.map((table) => {
+                  const status = visualStatus(table.status);
+                  const interactive = status === "available" || status === "selected";
+                  return (
+                    <button
+                      key={table.id}
+                      type="button"
+                      className={`rb-table rb-table--${table.shape} rb-table--${status}`}
+                      style={{ left: table.left, top: table.top }}
+                      disabled={!interactive}
+                      aria-label={`Table ${table.id}, ${table.seats} seats, ${table.area}, ${status}`}
+                      aria-pressed={status === "selected"}
+                      onClick={() => interactive && handleTableClick(table.id)}
+                    >
+                      <span className="rb-table-id">{table.id}</span>
+                      <span className="rb-table-seats">{table.seats} seats</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <aside className="rb-side-panel" aria-live="polite">
+              {selectedMeta ? (
+                <div className="rb-table-card">
+                  <p className="rb-table-card-kicker">Selected table</p>
+                  <h3>Table {selectedMeta.id}</h3>
+                  <p className="rb-table-card-meta">
+                    {selectedMeta.seats} seats · {AREA_LABEL[selectedMeta.area] || selectedMeta.area}
+                  </p>
+                  <p className="rb-table-card-desc">{selectedMeta.description}</p>
+                  <button type="button" className="rb-btn rb-btn-primary" onClick={goToDetails}>
+                    Continue
+                  </button>
+                  <p className="rb-helper">You can select the date and time next.</p>
+                </div>
+              ) : (
+                <div className="rb-table-card rb-table-card--empty">
+                  <h3>Select a table</h3>
+                  <p>
+                    Click an available table on the floor plan. Reserved tables cannot be selected.
+                  </p>
+                </div>
+              )}
+            </aside>
           </div>
-
-          <button
-            onClick={() => {
-              window.location.href = "/restaurants";
-            }}
-          >
-            Back
-          </button>
-
-          <button onClick={() => setCurrentStep(2)}>Next</button>
-        </>
+        </section>
       )}
 
       {currentStep === 2 && (
-        <>
-          <form className="table-booking-form">
-            <h2>Table Booking Details</h2>
-            <label>
-              Date:
+        <section className="rb-step-panel rb-form-panel" aria-labelledby="rb-step2-title">
+          <h2 id="rb-step2-title">Select date, time & guests</h2>
+          <p className="rb-form-intro">
+            Table <strong>{selectedTable}</strong>
+            {selectedMeta
+              ? ` · ${selectedMeta.seats} seats · ${AREA_LABEL[selectedMeta.area] || selectedMeta.area}`
+              : ""}
+          </p>
+
+          <form className="rb-form" onSubmit={handleDetailsSubmit}>
+            <div className="rb-field">
+              <label htmlFor="rb-date">Date</label>
               <input
+                id="rb-date"
                 type="date"
-                style={{ border: "1px solid #ccc" }}
-                onChange={handleDateChange}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 required
               />
-            </label>
-
-            <label>
-              Time:
+            </div>
+            <div className="rb-field">
+              <label htmlFor="rb-time">Time</label>
               <input
+                id="rb-time"
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
                 required
               />
-            </label>
-
-            <label>
-              Number of Persons:
+            </div>
+            <div className="rb-field">
+              <label htmlFor="rb-guests">Number of guests</label>
               <input
-                style={{ border: "1px solid #ccc", textAlign:"center"}}
+                id="rb-guests"
                 type="number"
                 min="1"
-                required
+                max={selectedMeta?.seats || 12}
                 value={numberOfPersons}
                 onChange={(e) => setNumberOfPersons(e.target.value)}
+                required
               />
-            </label>
-
-            <label>
-              Dietary restrictions and/or any other special requests (Optional):
+            </div>
+            <div className="rb-field rb-field--full">
+              <label htmlFor="rb-notes">Dietary restrictions / special requests (optional)</label>
               <input
+                id="rb-notes"
                 type="text"
                 value={dietaryRestrictions}
                 onChange={(e) => setDietaryRestrictions(e.target.value)}
+                placeholder="Allergies, high chair, celebration…"
               />
-            </label>
-          </form>
+            </div>
 
-          {/* Buttons Outside the Form */}
-          <div className="step-buttons">
-            <button onClick={() => setCurrentStep(1)} className="back-btn">
-              Back
-            </button>
-            <button onClick={handleSubmit} className="next-btn">
-              Next
-            </button>
-          </div>
-        </>
+            <div className="rb-form-actions">
+              <button type="button" className="rb-btn rb-btn-secondary" onClick={() => setCurrentStep(1)}>
+                Back
+              </button>
+              <button type="submit" className="rb-btn rb-btn-primary">
+                Continue to review
+              </button>
+            </div>
+          </form>
+        </section>
       )}
 
       {currentStep === 3 && (
-        <div className="booking-recap">
-          <h2>Booking Summary</h2>
-          <p>
-            Table: {selectedTable}
-            <br />
-            Date: {date}
-            <br />
-            Time: {time}
-            <br />
-            People: {numberOfPersons}
-            <br />
-            Dietary restrictions and/or special requests:{" "}
-            {dietaryRestrictions || "None"}
+        <section className="rb-step-panel rb-form-panel" aria-labelledby="rb-step3-title">
+          <h2 id="rb-step3-title">Review and confirm</h2>
+          <p className="rb-form-intro">Check your details before confirming the demo booking.</p>
+
+          <dl className="rb-summary">
+            <div>
+              <dt>Restaurant</dt>
+              <dd>{restaurant.name}</dd>
+            </div>
+            <div>
+              <dt>Table</dt>
+              <dd>
+                {selectedTable} · {selectedMeta?.seats} seats ·{" "}
+                {AREA_LABEL[selectedMeta?.area] || selectedMeta?.area}
+              </dd>
+            </div>
+            <div>
+              <dt>Date</dt>
+              <dd>{date}</dd>
+            </div>
+            <div>
+              <dt>Time</dt>
+              <dd>{time}</dd>
+            </div>
+            <div>
+              <dt>Guests</dt>
+              <dd>{numberOfPersons}</dd>
+            </div>
+            <div>
+              <dt>Notes</dt>
+              <dd>{dietaryRestrictions || "None"}</dd>
+            </div>
+          </dl>
+
+          <p className="rb-disclaimer rb-disclaimer--footer" role="note">
+            <i className="fas fa-info-circle" aria-hidden="true" />
+            Demo booking — no real reservation will be made.
           </p>
-          <button type="button" onClick={handleBack}>
-            Back
-          </button>
-          <button onClick={handleBookingConfirmation}>Confirm</button>
-        </div>
+
+          <div className="rb-form-actions">
+            <button type="button" className="rb-btn rb-btn-secondary" onClick={() => setCurrentStep(2)}>
+              Back
+            </button>
+            <button type="button" className="rb-btn rb-btn-primary" onClick={handleBookingConfirmation}>
+              Confirm booking
+            </button>
+          </div>
+        </section>
       )}
 
       {currentStep === 4 && (
-        <div className="booking-confirmation">
-          <h2>Thank you for your booking!</h2>
-          <p>
-            Your table has been booked. Below are your booking details:
-            <br />
-            <strong>Restaurant:</strong> {restaurantName}
-            <br />
-            <strong>Address:</strong> {restaurantAddress}
-          </p>
-          <div className="booking-actions">
-            <button onClick={handleEmail}>Email Booking</button>
-            <button onClick={handleSms}>Send SMS</button>
-            <button onClick={handlePdfDownload}>Download as PDF</button>
-            <h3>Give us a call if you are a group!</h3>
-            <p>+39 0678254698</p>
+        <section className="rb-step-panel rb-form-panel rb-confirm" aria-labelledby="rb-step4-title">
+          <div className="rb-confirm-badge" aria-hidden="true">
+            <i className="fas fa-check" />
           </div>
-        </div>
+          <h2 id="rb-step4-title">Booking confirmed</h2>
+          <p>
+            Your demo table reservation at <strong>{restaurant.name}</strong> is confirmed
+            {activeTrip ? ` and synced to ${activeTrip.destination}` : ""}.
+          </p>
+          <p className="rb-confirm-details">
+            Table {selectedTable} · {date} · {time} · {numberOfPersons} guests
+          </p>
+
+          <div className="rb-confirm-actions">
+            <button type="button" className="rb-btn rb-btn-secondary" onClick={handleEmail}>
+              Email booking
+            </button>
+            <button type="button" className="rb-btn rb-btn-secondary" onClick={handleSms}>
+              Send SMS
+            </button>
+            <button type="button" className="rb-btn rb-btn-secondary" onClick={handlePdfDownload}>
+              Download PDF
+            </button>
+            <Link to="/bookings" className="rb-btn rb-btn-primary">
+              View in Bookings
+            </Link>
+            <Link to="/itinerary" className="rb-btn rb-btn-secondary">
+              Open Itinerary
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   );

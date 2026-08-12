@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../styles/CinemaPage.css";
 
 const CinemaPage = () => {
-  const { cinemaId } = useParams(); // Assuming cinemaId can be used to filter movies if needed
+  const { cinemaId } = useParams();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cinemaName, setCinemaName] = useState("Cinema"); // Default cinema name
-  const [showMoreStates, setShowMoreStates] = useState({}); // Tracks "Read More" states for movies
+  const [cinemaName, setCinemaName] = useState("Cinema");
+  const [showMoreStates, setShowMoreStates] = useState({});
   const navigate = useNavigate();
-
 
   const TMDB_API_KEY = "17bd342bc110828c583eadb704c47710";
 
@@ -44,25 +42,26 @@ const CinemaPage = () => {
 
   const renderOverview = (overview, movieId) => {
     if (!overview) return "No description available.";
-  
-    const isExpanded = showMoreStates[movieId]; // Check if this movie's "Read More" is expanded
-    const words = overview.split(" "); // Split the text into words
-    const shortOverview = words.length > 4 ? `${words.slice(0, 4).join(" ")}` : overview; // Limit to 4 words
-  
+
+    const isExpanded = showMoreStates[movieId];
+    const words = overview.split(" ");
+    const shortOverview = words.length > 4 ? `${words.slice(0, 4).join(" ")}` : overview;
+
     return (
       <>
         <span className={isExpanded ? "expandable" : ""}>
-          {isExpanded ? overview : shortOverview} {/* Show full or truncated overview */}
+          {isExpanded ? overview : shortOverview}
         </span>
-        {words.length > 4 && ( // Show "Read More" only if more than 4 words
+        {words.length > 4 && (
           <button
+            type="button"
             onClick={() =>
               setShowMoreStates((prev) => ({
                 ...prev,
-                [movieId]: !prev[movieId], // Toggle expanded state
+                [movieId]: !prev[movieId],
               }))
             }
-            className="read-more-btn"
+            className="trv-btn"
           >
             {isExpanded ? "Show Less" : "Read More"}
           </button>
@@ -71,29 +70,32 @@ const CinemaPage = () => {
     );
   };
 
-
   const handleBooking = (bookingId, movieTitle) => {
     navigate(`/cinema-booking-details/${bookingId}`, {
-      state: {cinemaName: cinemaName, movieTitle: movieTitle}
-    })
-  }
+      state: { cinemaName: cinemaName, movieTitle: movieTitle },
+    });
+  };
 
   return (
-    <div className="cinema-page-container">
-      <h2>{cinemaName}</h2>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>{cinemaName}</h1>
+          <p>Now playing · book your seat</p>
+        </div>
+      </div>
 
       {loading ? (
-        <img
-          src="/loading.gif"
-          style={{ width: "300px", background: "#eef6ff" }}
-          alt="loading"
-        />
+        <div className="trv-loading"><img src="/loading.gif" alt="Loading" /></div>
       ) : movies.length === 0 ? (
-        <p>No movies currently playing at this cinema.</p>
+        <div className="trv-empty">
+          <h3>No results</h3>
+          <p>No movies currently playing at this cinema.</p>
+        </div>
       ) : (
-        <div className="movies-list">
+        <div className="trv-venue-grid">
           {movies.map((movie) => (
-            <div key={movie.id} className="movie-card">
+            <article key={movie.id} className="trv-venue-card">
               <img
                 src={
                   movie.poster_path
@@ -101,28 +103,30 @@ const CinemaPage = () => {
                     : "https://via.placeholder.com/300x450?text=No+Image"
                 }
                 alt={movie.title}
-                className="movie-poster"
+                className="trv-venue-image"
+                loading="lazy"
+                decoding="async"
               />
-              <div className="movie-info">
+              <div className="trv-venue-body">
                 <h3>{movie.title}</h3>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Release Date:</strong> {movie.release_date || "N/A"}
                 </p>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Overview:</strong> {renderOverview(movie.overview, movie.id)}
-
                 </p>
-                <div className="show-hours">
-                  <strong>Showtimes:</strong>
-                  <ul>
-                    <li>1:00 PM</li>
-                    <li>4:00 PM</li>
-                    <li>7:30 PM</li>
-                  </ul>
-                </div>
-                <button onClick={() => handleBooking(movie.id, movie.title)} className="book-seat-btn">Book a Seat</button>
+                <p className="trv-venue-meta">
+                  <strong>Showtimes:</strong> 1:00 PM · 4:00 PM · 7:30 PM
+                </p>
+                <button
+                  type="button"
+                  onClick={() => handleBooking(movie.id, movie.title)}
+                  className="trv-btn trv-btn-primary"
+                >
+                  Book a Seat
+                </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}

@@ -2,10 +2,8 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from "react";
 
-// Create context
 const NotificationContext = createContext();
 
-// Custom hook to access the notification context
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
@@ -14,32 +12,29 @@ export const useNotification = () => {
   return context;
 };
 
-// Provider to wrap the app
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
 
-  // Function to add a notification
   const addNotification = (notification) => {
-    setNotifications((prev) => [...prev, notification]);
-
-    // Automatically remove the notification after 5 seconds
+    const normalized = {
+      title: notification.title || notification.name || "Notification",
+      message: notification.message || notification.details || "",
+      type: notification.type || "info",
+    };
+    setNotifications((prev) => [...prev, normalized]);
     setTimeout(() => {
       setNotifications((prev) => prev.slice(1));
-    }, 10000);
+    }, 8000);
   };
 
-  // Function to clear all notifications
-  const clearNotifications = () => {
-    setNotifications([]);
-  };
+  const clearNotifications = () => setNotifications([]);
 
   return (
     <NotificationContext.Provider
       value={{ notifications, addNotification, clearNotifications }}
     >
       {children}
-      {/* Render notifications */}
-      <div className="notifications-container">
+      <div className="notifications-container" aria-live="polite">
         {notifications.map((notification, index) => (
           <div key={index} className={`notification ${notification.type}`}>
             <h4>{notification.title}</h4>

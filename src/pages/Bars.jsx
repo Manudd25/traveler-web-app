@@ -1,90 +1,105 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Bars.css";
 import { useFavorite } from "../contexts/FavoriteContext";
+import { useTripDestination } from "../hooks/useTripDestination";
+import { barFallbacks } from "../data/barFallbacks";
+import { fetchCityImages } from "../utils/fetchCityImages";
+import { fetchOverpass } from "../utils/fetchOverpass";
 
 const Bars = () => {
   const [bars, setBars] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { favorites, toggleFavorite } = useFavorite();
+  const { cityName, around, tripKey, ready } = useTripDestination();
 
   useEffect(() => {
+    if (!ready) return;
+
     const fetchBars = async () => {
       setLoading(true);
+      const fallbacks = barFallbacks(cityName);
 
       try {
-        // Overpass API query for bars
         const query = `
-          [out:json];
-          node["amenity"="bar"](41.8902,12.4922,41.9029,12.5000);
-          out body;
+          [out:json][timeout:25];
+          (
+            node["amenity"="bar"]${around};
+            node["amenity"="pub"]${around};
+            way["amenity"="bar"]${around};
+            way["amenity"="pub"]${around};
+          );
+          out center 40;
         `;
-        const response = await fetch(
-          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
-        );
-        const data = await response.json();
 
-        // Fetch bar images from Pixabay API
-        const imageResponse = await fetch(
-          `https://pixabay.com/api/?key=47226052-b8804eb501d7ae68ad2a6da9e&q=bar&image_type=photo&per_page=15`
-        );
-        const imageData = await imageResponse.json();
-        const images = imageData.hits.map((hit) => hit.webformatURL);
+        const [data, images] = await Promise.all([
+          fetchOverpass(query),
+          fetchCityImages(`${cityName} bar`, { perPage: 15 }),
+        ]);
 
-        // Format bar data with images
-        const formattedData = data.elements.slice(0, 15).map((bar, index) => ({
-          id: bar.id,
-          name: bar.tags?.name || "Eternity Bar",
-          description: bar.tags?.cuisine || "Enjoy a refreshing drink!",
-          openingHours: bar.tags?.opening_hours || "12:00 - 23:00",
-          image: images[index] || "https://via.placeholder.com/400x300?text=No+Image", // Fallback image
-        }));
+        const apiBars = (data?.elements || [])
+          .filter((item) => item?.tags?.name)
+          .slice(0, 15)
+          .map((bar, index) => ({
+            id: bar.id,
+            name: bar.tags.name,
+            description: bar.tags?.cuisine || bar.tags?.amenity || "Enjoy a refreshing drink!",
+            openingHours: bar.tags?.opening_hours || "12:00 - 23:00",
+            image: images[index] || fallbacks[index % fallbacks.length].image,
+            city: cityName,
+          }));
 
-        setBars(formattedData);
+        setBars(apiBars.length ? apiBars : fallbacks);
       } catch (error) {
         console.error("Error fetching bar data:", error);
+        setBars(fallbacks);
       } finally {
         setLoading(false);
       }
     };
 
     fetchBars();
-  }, []);
+  }, [ready, tripKey, around, cityName]);
 
   const handleVirtualTour = (barId) => {
     navigate(`/bar-virtual-tour/${barId}`);
   };
 
   return (
-    <div className="bar-container">
-      <h2>Discover Bars</h2>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Bars & Pubs</h1>
+          <p>Near {cityName} · based on your active trip</p>
+        </div>
+      </div>
+
       {loading ? (
-        <img src="/loading.gif" style={{ width: "300px", background: "#eef6ff" }} alt="loading" />
+        <div className="trv-loading"><img src="/loading.gif" alt="Loading" /></div>
       ) : bars.length === 0 ? (
-        <p>No Bars found in the specified area.</p>
+        <div className="trv-empty">
+          <h3>No results</h3>
+          <p>No bars found near {cityName}.</p>
+        </div>
       ) : (
-        <div className="bar-list">
+        <div className="trv-venue-grid">
           {bars.map((bar) => (
-            <div key={bar.id} className="bar-card">
-              <div className="favorite-icon" onClick={() => toggleFavorite(bar)}>
+            <article key={bar.id} className="trv-venue-card">
+              <button type="button" className="trv-fav" onClick={() => toggleFavorite(bar)} aria-label="Toggle favorite">
                 {favorites.some((fav) => fav.id === bar.id) ? "❤️" : "🤍"}
-              </div>
-              <img src={bar.image} alt={bar.name} className="bar-image" />
-              <div className="bar-info">
+              </button>
+              <img src={bar.image} alt={bar.name} className="trv-venue-image" loading="lazy" decoding="async" />
+              <div className="trv-venue-body">
                 <h3>{bar.name}</h3>
-                <p>{bar.description}</p>
-                <p>
+                <p className="trv-venue-meta">{bar.description}</p>
+                <p className="trv-venue-meta">
                   <strong>Opening Hours:</strong> {bar.openingHours}
                 </p>
-                <button
-                  className="book-table-btn"
-                  onClick={() => handleVirtualTour(bar.id)}
-                >
-                  Have a look around!
+                <button type="button" className="trv-btn trv-btn-primary" onClick={() => handleVirtualTour(bar.id)}>
+                  Virtual Tour
                 </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}

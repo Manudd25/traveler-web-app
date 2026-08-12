@@ -1,68 +1,67 @@
 import { useFavorite } from "../contexts/FavoriteContext";
-import { jsPDF } from "jspdf"; // Import jsPDF
-import "../styles/Favorites.css";
+import { jsPDF } from "jspdf";
 
 const Favorites = () => {
-  const { favorites, toggleFavorite } = useFavorite(); // Access favorites and toggleFavorite
+  const { favorites, toggleFavorite } = useFavorite();
 
-  // Function to export favorites as a PDF
   const exportFavoritesAsPDF = () => {
     const doc = new jsPDF();
 
-    // Add title
     doc.setFontSize(18);
     doc.text("Your Favorite Places", 10, 10);
 
-    // Add each favorite item to the PDF
     favorites.forEach((fav, index) => {
-      const positionY = 20 + index * 30; // Position each favorite 30 units apart
+      const positionY = 20 + index * 30;
       doc.setFontSize(14);
       doc.text(`Name: ${fav.name}`, 10, positionY);
-      doc.text(`Type: ${fav.type || "Unknown Type"}`, 10, positionY + 7); // Default to "Unknown Type"
+      doc.text(`Type: ${fav.type || "Unknown Type"}`, 10, positionY + 7);
       doc.text(
-        `Opening Hours: ${fav.openingHours || "Hours not available"}`, // Default opening hours
+        `Opening Hours: ${fav.openingHours || "Hours not available"}`,
         10,
         positionY + 14
       );
     });
 
-    // Save the PDF
     doc.save("Favorites.pdf");
   };
 
   return (
-    <div className="favorites-container">
-      <h2>Your Favorites</h2>
-      {favorites.length === 0 ? (
-        <p>No favorites added yet.</p>
-      ) : (
-        <>
-      
-          <div className="favorites-list">
-            {favorites.map((fav) => (
-              <div key={fav.id} className="favorite-card">
-                <div
-                  className="favorite-icon"
-                  onClick={() => toggleFavorite(fav)} // Toggle favorite
-                >
-                  ❤️
-                </div>
-                <img src={fav.image} alt={fav.name} className="favorite-image" />
-                <div className="favorite-info">
-                  <h3>{fav.name}</h3>
-                  <p>
-                    <strong>Added to my favorites</strong>
-                  </p>
-                  <p>{fav.openingHours || "Hours not available"}</p>
-                </div>
-              </div>
-              
-            ))}
-          </div>
-          <button className="export-btn" onClick={exportFavoritesAsPDF}>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Favorites</h1>
+          <p>Places you saved for your trip</p>
+        </div>
+        {favorites.length > 0 && (
+          <button type="button" className="trv-btn trv-btn-primary" onClick={exportFavoritesAsPDF}>
             Export Favorites as PDF
           </button>
-        </>
+        )}
+      </div>
+
+      {favorites.length === 0 ? (
+        <div className="trv-empty">
+          <h3>No favorites</h3>
+          <p>No favorites added yet.</p>
+        </div>
+      ) : (
+        <div className="trv-venue-grid">
+          {favorites.map((fav) => (
+            <article key={fav.id} className="trv-venue-card">
+              <button type="button" className="trv-fav" onClick={() => toggleFavorite(fav)} aria-label="Toggle favorite">
+                ❤️
+              </button>
+              <img src={fav.image} alt={fav.name} className="trv-venue-image" loading="lazy" decoding="async" />
+              <div className="trv-venue-body">
+                <h3>{fav.name}</h3>
+                <p className="trv-venue-meta">
+                  <strong>Added to my favorites</strong>
+                </p>
+                <p className="trv-venue-meta">{fav.openingHours || "Hours not available"}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       )}
     </div>
   );

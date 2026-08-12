@@ -19,9 +19,13 @@ const BarTour = () => {
   ];
 
   return (
-    <div className="photo-album-container">
-      <h2>Explore the Bar</h2>
-      <p>Take a look at some stunning photos of this bar&apos;s ambiance and interiors:</p>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Explore the Bar</h1>
+          <p>Ambiance and interiors for this venue.</p>
+        </div>
+      </div>
       <div className="photo-album">
         {images.map((image, index) => (
           <div key={index} className="photo-card">

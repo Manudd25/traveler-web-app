@@ -1,11 +1,10 @@
 import { useState } from "react";
-import "../styles/Entertainment.css";
 import { useFavorite } from "../contexts/FavoriteContext";
-
+import { useTripDestination } from "../hooks/useTripDestination";
 
 const Concerts = () => {
-
-  const { favorites, toggleFavorite } = useFavorite(); 
+  const { favorites, toggleFavorite } = useFavorite();
+  const { cityName } = useTripDestination();
   const [concerts] = useState([
     {
       id: "1",
@@ -30,39 +29,41 @@ const Concerts = () => {
     },
   ]);
 
-    
   return (
-    <div className="entertainment-container">
-      <h2>Entertainment in Rome</h2>
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Concerts</h1>
+          <p>Near {cityName} · based on your active trip</p>
+        </div>
+      </div>
 
-
-
-      <section>
-        <h3>Upcoming Concerts</h3>
-        <div className="concert-list">
+      {concerts.length === 0 ? (
+        <div className="trv-empty">
+          <h3>No results</h3>
+          <p>No concerts found near {cityName}.</p>
+        </div>
+      ) : (
+        <div className="trv-venue-grid">
           {concerts.map((concert) => (
-            <div key={concert.id} className="concert-card">
-              <div className="favorite-icon" onClick={() => toggleFavorite(concert)}>
-                    {favorites.some((fav) => fav.id === concert.id) ? "❤️" : "🤍"}
-                  </div>
-              <img
-                src={concert.image}
-                alt={concert.name}
-                className="concert-image"
-              />
-              <div className="concert-info">
+            <article key={concert.id} className="trv-venue-card">
+              <button type="button" className="trv-fav" onClick={() => toggleFavorite(concert)} aria-label="Toggle favorite">
+                {favorites.some((fav) => fav.id === concert.id) ? "❤️" : "🤍"}
+              </button>
+              <img src={concert.image} alt={concert.name} className="trv-venue-image" loading="lazy" decoding="async" />
+              <div className="trv-venue-body">
                 <h3>{concert.name}</h3>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Date:</strong> {concert.date}
                 </p>
-                <p>
+                <p className="trv-venue-meta">
                   <strong>Location:</strong> {concert.location}
                 </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
-      </section>
+      )}
     </div>
   );
 };

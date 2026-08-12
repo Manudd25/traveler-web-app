@@ -1,98 +1,107 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Restaurants.css";
 import { useFavorite } from "../contexts/FavoriteContext";
-
+import { useTripDestination } from "../hooks/useTripDestination";
+import { restaurantFallbacks } from "../data/restaurantFallbacks";
+import { fetchCityImages } from "../utils/fetchCityImages";
+import { fetchOverpass } from "../utils/fetchOverpass";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { favorites, toggleFavorite } = useFavorite(); 
-
+  const { favorites, toggleFavorite } = useFavorite();
+  const { cityName, around, tripKey, ready } = useTripDestination();
 
   useEffect(() => {
+    if (!ready) return;
+
     const fetchRestaurants = async () => {
       setLoading(true);
+      const fallbacks = restaurantFallbacks(cityName);
 
       try {
-        // Overpass API query for restaurants in Rome
         const query = `
-          [out:json];
-          node["amenity"="restaurant"](41.8902,12.4922,41.9029,12.5000);
-          out body;
+          [out:json][timeout:25];
+          (
+            node["amenity"="restaurant"]${around};
+            way["amenity"="restaurant"]${around};
+          );
+          out center 40;
         `;
-        const response = await fetch(
-          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
-        );
-        const data = await response.json();
 
-        // Fetch 15 unique restaurant images from Pixabay API
-        const imageResponse = await fetch(
-          `https://pixabay.com/api/?key=47226052-b8804eb501d7ae68ad2a6da9e&q=restaurant&image_type=photo&per_page=15`
-        );
-        const imageData = await imageResponse.json();
-        const images = imageData.hits.map((hit) => hit.webformatURL);
+        const [data, images] = await Promise.all([
+          fetchOverpass(query),
+          fetchCityImages(`${cityName} restaurant`, { perPage: 15 }),
+        ]);
 
-        // Format restaurant data with images
-        const formattedData = data.elements.slice(0, 15).map((restaurant, index) => ({
-          id: restaurant.id,
-          name: restaurant.tags?.name || "Unnamed Restaurant",
-          description:
-            restaurant.tags?.cuisine || "Cuisine details unavailable.",
-          openingHours: restaurant.tags?.opening_hours || "12:00 - 23:00",
-          image: images[index] || "https://via.placeholder.com/400x300?text=No+Image", // Fallback image
-        }));
+        const apiRestaurants = (data?.elements || [])
+          .filter((item) => item?.tags?.name)
+          .slice(0, 15)
+          .map((restaurant, index) => ({
+            id: restaurant.id,
+            name: restaurant.tags.name,
+            description: restaurant.tags?.cuisine || "Cuisine details unavailable.",
+            openingHours: restaurant.tags?.opening_hours || "12:00 - 23:00",
+            image: images[index] || fallbacks[index % fallbacks.length].image,
+            city: cityName,
+          }));
 
-        setRestaurants(formattedData);
+        setRestaurants(apiRestaurants.length ? apiRestaurants : fallbacks);
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
+        setRestaurants(fallbacks);
       } finally {
         setLoading(false);
       }
     };
 
     fetchRestaurants();
-  }, []);
+  }, [ready, tripKey, around, cityName]);
 
   const handleBookTable = (restaurantId) => {
     navigate(`/table-booking/${restaurantId}`);
   };
 
   return (
-    <div className="restaurant-container">
-      <h2>Discover Restaurants</h2>
-      {loading ? (
-      <img src="/loading.gif" style={{width: "300px", background: "#eef6ff"}} alt="loading" />
+    <div>
+      <div className="trv-page-header">
+        <div>
+          <h1>Restaurants</h1>
+          <p>Near {cityName} · based on your active trip</p>
+        </div>
+      </div>
 
+      {loading ? (
+        <div className="trv-loading"><img src="/loading.gif" alt="Loading" /></div>
       ) : restaurants.length === 0 ? (
-        <p>No restaurants found in the specified area.</p>
+        <div className="trv-empty">
+          <h3>No results</h3>
+          <p>No restaurants found near {cityName}.</p>
+        </div>
       ) : (
-        <div className="restaurant-list">
+        <div className="trv-venue-grid">
           {restaurants.map((restaurant) => (
-            <div key={restaurant.id} className="restaurant-card">
-              <div className="favorite-icon" onClick={() => toggleFavorite(restaurant)}>
-                    {favorites.some((fav) => fav.id === restaurant.id) ? "❤️" : "🤍"}
-                  </div>
-              <img
-                src={restaurant.image}
-                alt={restaurant.name}
-                className="restaurant-image"
-              />
-              <div className="restaurant-info">
+            <article key={restaurant.id} className="trv-venue-card">
+              <button type="button" className="trv-fav" onClick={() => toggleFavorite(restaurant)} aria-label="Toggle favorite">
+                {favorites.some((fav) => fav.id === restaurant.id) ? "❤️" : "🤍"}
+              </button>
+              <img src={restaurant.image} alt={restaurant.name} className="trv-venue-image" loading="lazy" decoding="async" />
+              <div className="trv-venue-body">
                 <h3>{restaurant.name}</h3>
-                <p>{restaurant.description}</p>
-                <p>
+                <p className="trv-venue-meta">{restaurant.description}</p>
+                <p className="trv-venue-meta">
                   <strong>Opening Hours:</strong> {restaurant.openingHours}
                 </p>
                 <button
-                  className="book-table-btn"
+                  type="button"
+                  className="trv-btn trv-btn-primary"
                   onClick={() => handleBookTable(restaurant.id)}
                 >
                   Book a Table
                 </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}

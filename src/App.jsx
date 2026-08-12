@@ -1,219 +1,109 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Map from "react-map-gl";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { AuthProvider } from "./contexts/AuthContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
+import AppShell from "./components/layout/AppShell";
+import Chatbot from "./components/Chatbot";
+
+import "./styles/design-system.css";
+import "./styles/dashboard.css";
 import "./App.css";
 
-// Navbar Pages
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const Overview = lazy(() => import("./pages/dashboard/Overview"));
+const MyTrips = lazy(() => import("./pages/dashboard/MyTrips"));
+const ItineraryPage = lazy(() => import("./pages/dashboard/ItineraryPage"));
+const MapPage = lazy(() => import("./pages/dashboard/MapPage"));
+const BookingsHub = lazy(() => import("./pages/dashboard/BookingsHub"));
+const BudgetPage = lazy(() => import("./pages/dashboard/BudgetPage"));
+const DocumentsPage = lazy(() => import("./pages/dashboard/DocumentsPage"));
+const ChecklistPage = lazy(() => import("./pages/dashboard/ChecklistPage"));
+const SettingsPage = lazy(() => import("./pages/dashboard/SettingsPage"));
+const Discover = lazy(() => import("./pages/dashboard/Discover"));
 
+const Restaurants = lazy(() => import("./pages/Restaurants"));
+const TableBooking = lazy(() => import("./pages/TableBooking"));
+const Bars = lazy(() => import("./pages/Bars"));
+const BarVirtualTour = lazy(() => import("./pages/BarTour"));
+const Activities = lazy(() => import("./pages/Activities"));
+const Sports = lazy(() => import("./pages/Sports"));
+const Tours = lazy(() => import("./pages/Tours"));
+const ActivitiesBooking = lazy(() => import("./pages/ActivitiesBooking"));
+const Cinemas = lazy(() => import("./pages/Cinemas"));
+const CinemaPage = lazy(() => import("./pages/CinemaPage"));
+const CinemaBooking = lazy(() => import("./pages/CinemaBooking"));
+const Entertainment = lazy(() => import("./pages/Entertainment"));
+const Concerts = lazy(() => import("./pages/Concerts"));
+const Clubs = lazy(() => import("./pages/Clubs"));
+const Theaters = lazy(() => import("./pages/Theater"));
 
-//Contexts
-import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
-import Chatbot from "./components/Chatbot";
-import { NotificationProvider } from "./contexts/NotificationContext";
+const Account = lazy(() => import("./components/Account"));
+const Login = lazy(() => import("./components/Login"));
+const Favorites = lazy(() => import("./components/Favorites"));
 
-
-//Components
-import Account from "./components/Account";
-import Login from "./components/Login";
-import MapModal from "./components/MapModal";
-import Navbar from "./components/Navbar"; 
-import Favorites from "./components/Favorites";
-
-
-// Pages for each category
-import Restaurants from "./pages/Restaurants";
-import TableBooking from "./pages/TableBooking";
-import Bars from "./pages/Bars";
-import BarVirtualTour from "./pages/BarTour";
-
-
-import Activities from "./pages/Activities";
-import Sports from "./pages/Sports";
-import Tours from "./pages/Tours";
-import ActivitiesBooking from "./pages/ActivitiesBooking"
-import Cinemas from "./pages/Cinemas";
-import CinemaPage from "./pages/CinemaPage";
-import CinemaBooking from "./pages/CinemaBooking"
-import Entertainment from "./pages/Entertainment";
-import Concerts from "./pages/Concerts";
-import Clubs from "./pages/Clubs";
-import Theaters from "./pages/Theater";
-
-
-// Images
-import restaurant from "./assets/restaurant.jpg";
-import bars from "./assets/bars.jpg";
-import activities from "./assets/activities.jpg";
-import tours from "./assets/tours.jpg";
-import cinema from "./assets/cinema.jpg";
-import entertainment from "./assets/entertainment.jpg";
+function PageLoader() {
+  return (
+    <div className="trv-page-loader" role="status" aria-live="polite">
+      <span className="trv-page-loader-mark" aria-hidden="true">
+        <i className="fas fa-plane" />
+      </span>
+      <span>Loading…</span>
+    </div>
+  );
+}
 
 const App = () => {
-  const [city, setCity] = useState("Rome");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        () => {
-          setCity("Rome"); // Standard fallback location
-        },
-        () => {
-          setCity("Rome");
-        }
-      );
-    }
-  }, []);
-
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
-
   return (
-    <Router>
+    <Router basename="/">
       <AuthProvider>
-      <NotificationProvider>
-        <div className="app-container">
-          {/* Navbar */}
-       
-          <Navbar />
-          {/* Main Content */}
-          <div className="main-content">
+        <NotificationProvider>
+          <Suspense fallback={<PageLoader />}>
             <Routes>
-              {/* Home Page */}
-              <Route
-                path="/"
-                element={
-                  <>
-                    {/* Map Section */}
-                    <div className="map-section">
-                      <h2>Your Next Destination</h2>
-                      <div className="map-container" onClick={openModal}>
-                        <Map
-                          initialViewState={{
-                            longitude: 12.4964, // Longitude for Rome
-                            latitude: 41.9028, // Latitude for Rome
-                            zoom: 13,
-                          }}
-                          style={{
-                            width: "100%", // Full-width map
-                            height: "300px", // Standard map height
-                            borderRadius: "10px",
-                          }}
-                          mapStyle="mapbox://styles/mapbox/streets-v11"
-                          mapboxAccessToken="pk.eyJ1IjoibWFudWRkMjUiLCJhIjoiY20zc2w4YWJrMGRmejJyc2M3Njc1MDQ4MCJ9.z4D8vWD6bouX3aWp1tafRQ"
-                        />
-                      </div>
-                      <p>Real-time Location: {city}</p>
-                    </div>
+              <Route path="/" element={<LandingPage />} />
 
-                    {/* Categories Section */}
-                    <div className="categories">
-                      <Link
-                        to="/restaurants"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${restaurant})`,
-                        }}
-                      >
-                        <h3>🍴 Restaurants</h3>
-                        <p>Find the best dining experiences nearby.</p>
-                      </Link>
-                      <Link
-                        to="/bars"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${bars})`,
-                        }}
-                      >
-                        <h3>🍹 Bars & Pubs</h3>
-                        <p>Unwind with the perfect drink.</p>
-                      </Link>
-                      <Link
-                        to="/activities"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${activities})`,
-                        }}
-                      >
-                        <h3>⚽ Sports & Activities</h3>
-                        <p>Stay active and entertained.</p>
-                      </Link>
-                      <Link
-                        to="/tours"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${tours})`,
-                        }}
-                      >
-                        <h3>🚌 Tours & Excursions</h3>
-                        <p>Explore guided tours and adventures.</p>
-                      </Link>
-                      <Link
-                        to="/cinemas"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${cinema})`,
-                        }}
-                      >
-                        <h3>🎭 Cinemas & Theaters</h3>
-                        <p>Catch the latest movies and shows.</p>
-                      </Link>
-                      <Link
-                        to="/entertainment"
-                        className="category-item"
-                        style={{
-                          backgroundImage: `url(${entertainment})`,
-                        }}
-                      >
-                        <h3>🎉 Entertainment</h3>
-                        <p>Enjoy music, festivals, and events.</p>
-                      </Link>
-                    </div>
+              <Route element={<AppShell />}>
+                <Route path="/app" element={<Overview />} />
+                <Route path="/trips" element={<MyTrips />} />
+                <Route path="/itinerary" element={<ItineraryPage />} />
+                <Route path="/map" element={<MapPage />} />
+                <Route path="/bookings" element={<BookingsHub />} />
+                <Route path="/budget" element={<BudgetPage />} />
+                <Route path="/documents" element={<DocumentsPage />} />
+                <Route path="/checklist" element={<ChecklistPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/discover" element={<Discover />} />
 
-                    {/* Map Modal */}
-                    <MapModal isOpen={modalIsOpen} onClose={closeModal} />
-                  </>
-                }
-              />
+                <Route path="/restaurants" element={<Restaurants />} />
+                <Route path="/restaurants/bars" element={<Bars />} />
+                <Route path="/restaurants/pubs" element={<Bars />} />
+                <Route path="/bars" element={<Bars />} />
+                <Route path="/bar-virtual-tour/:barId" element={<BarVirtualTour />} />
+                <Route path="/table-booking/:restaurantId" element={<TableBooking />} />
 
-              {/* Category Pages */}
-             
-              <Route path="/restaurants" element={<Restaurants />} />
-              <Route path="/restaurants/bars" element={<Bars />} />
-              <Route path="/bar-virtual-tour/:barId" element={<BarVirtualTour />} />
-              <Route path="/restaurants/pubs" element={<Bars />} />
-              <Route path="/table-booking/:restaurantId" element={<TableBooking />} />
-              
-              <Route path="/activities" element={<Activities />} />
-              <Route path="/activities/tours" element={<Tours />} />
-              <Route path="/tour-details/:tourId" element={<ActivitiesBooking />}/>
-              <Route path="/activities/sports" element={<Sports />} />
-              <Route path="/activities/excursions" element={<Activities />} />
-              <Route path="/entertainment" element={<Entertainment />} />
+                <Route path="/activities" element={<Activities />} />
+                <Route path="/activities/tours" element={<Tours />} />
+                <Route path="/tours" element={<Tours />} />
+                <Route path="/tour-details/:tourId" element={<ActivitiesBooking />} />
+                <Route path="/activities/sports" element={<Sports />} />
+                <Route path="/activities/excursions" element={<Activities />} />
 
-              <Route path="/entertainment/cinemas" element={<Cinemas />} />
-              <Route path="/cinema-details/:cinemaId" element={<CinemaPage />} />
-              <Route path="/cinema-booking-details/:bookingId" element={<CinemaBooking/>} />
-              <Route path="/entertainment/clubs" element={<Clubs />} />
-              <Route path="/entertainment/entertainment" element={<Entertainment />} />
-              <Route path="/entertainment/concerts" element={<Concerts />} />
-              <Route path="/entertainment/theaters" element={<Theaters />} />
+                <Route path="/entertainment" element={<Entertainment />} />
+                <Route path="/entertainment/cinemas" element={<Cinemas />} />
+                <Route path="/cinemas" element={<Cinemas />} />
+                <Route path="/cinema-details/:cinemaId" element={<CinemaPage />} />
+                <Route path="/cinema-booking-details/:bookingId" element={<CinemaBooking />} />
+                <Route path="/entertainment/clubs" element={<Clubs />} />
+                <Route path="/entertainment/entertainment" element={<Entertainment />} />
+                <Route path="/entertainment/concerts" element={<Concerts />} />
+                <Route path="/entertainment/theaters" element={<Theaters />} />
 
-
-
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/login" element={<Login />} />
-
-
-
-
-
-
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
             </Routes>
-          </div>
+          </Suspense>
           <Chatbot />
-        </div>
         </NotificationProvider>
       </AuthProvider>
     </Router>

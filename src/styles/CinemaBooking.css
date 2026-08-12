@@ -1,454 +1,221 @@
+/* Cinema booking — aligned with Traveler design system */
+
 .cinema-booking-container {
-    display: flex;
-    flex-direction: column;
-    width: 300px; /* Adjust as per your design */
-    margin: 0 auto;
-    padding: 10px;
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    color: black;
-  }
-  
-  .step-content {
-    flex: 1; /* Ensures equal width distribution for all step containers */
-    padding: 20px;
-    background-color: #f9f9f9;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .step-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .step-navigation button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #00C7BB;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .step-navigation button:hover {
-    background-color: #008f89;
-  }
-  
-  
-  .steps {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .step {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    border-bottom: 3px solid #ccc;
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .step.active {
-    border-bottom: 3px solid #00C7BB;
-    color: white;
-  }
-  
- 
-  .seat-selection h3,
-  .showtime-selection h3,
-  .ticket-options h3,
-  .step-content h3 {
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .selected-seats {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-  }
-  
-  .showtime-options {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .showtime-button {
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    color: black;
-  }
-  
-  .showtime-button.selected {
-    background-color: #00C7BB;
-    color: white;
-  }
-  
-  .showtime-button:hover {
-    background-color: #ddd;
-  }
-  
-  .ticket-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .ticket-option label {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .ticket-option input {
-    width: 50px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-
-  
-  .download-ticket,
-  .show-qr {
-    padding: 10px 20px;
-    margin: 10px 0;
-    background-color: #00C7BB;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .download-ticket:hover,
-  .show-qr:hover {
-    background-color: #008f89;
-  }
-  
-
-
-/* General Container */
-.cinema-booking-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 800px;
+  max-width: 920px;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: 90%; /* Responsive width */
-}
-
-
-
-
-/* Step 1: Seat Selection */
-.seat-selection {
+  padding: 1.35rem 1.25rem 1.75rem;
+  background: var(--trv-surface, #fff);
+  border: 1px solid var(--trv-border, #d9e2ec);
+  border-radius: 14px;
+  box-shadow: var(--trv-shadow, 0 8px 24px rgba(11, 44, 74, 0.08));
+  color: var(--trv-text, #1a2b3c);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
+  gap: 1rem;
 }
 
-.selected-seats {
-  background-color: #eaf6f6;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-top: 10px;
-  font-size: 14px;
+.cinema-booking-header {
   text-align: center;
 }
 
+.cinema-booking-header h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--trv-display, Georgia, serif);
+  font-size: clamp(1.45rem, 2.5vw, 1.9rem);
+  color: var(--trv-navy, #0b2c4a);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.cinema-booking-header p {
+  margin: 0;
+  color: var(--trv-muted, #5b6b7c);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.step {
+  text-align: center;
+  padding: 0.55rem 0.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--trv-border, #d9e2ec);
+  background: #f7fafc;
+  color: var(--trv-muted, #5b6b7c);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.step.active {
+  background: rgba(46, 196, 182, 0.12);
+  border-color: #99e6db;
+  color: var(--trv-navy, #0b2c4a);
+}
+
+.step-content {
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid var(--trv-border, #d9e2ec);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.step-content h3 {
+  margin: 0;
+  font-family: var(--trv-display, Georgia, serif);
+  font-size: 1.05rem;
+  color: var(--trv-navy, #0b2c4a);
+  text-align: center;
+}
+
+.seat-selection,
 .showtime-selection {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-align: center;
+}
+
+.selected-seats {
+  background: var(--trv-cyan-soft, #d8f6f2);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #b6ebe4;
+  border-radius: 8px;
+  color: var(--trv-navy, #0b2c4a);
+  font-weight: 600;
+  min-width: 12rem;
   text-align: center;
 }
 
 .showtime-options {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .showtime-button {
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--trv-border, #d9e2ec);
+  background: #fff;
+  color: var(--trv-navy, #0b2c4a);
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 600;
 }
 
-.showtime-button.selected {
-  background-color: #00C7BB;
-  color: white;
-}
-
+.showtime-button.selected,
 .showtime-button:hover {
-  background-color: #ddd;
+  background: var(--trv-cyan, #2ec4b6);
+  border-color: transparent;
+  color: #fff;
 }
 
-/* Step 2: Ticket Selection */
-.ticket-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ticket-option {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.ticket-option label {
-  font-weight: bold;
-}
-
-.ticket-option input {
-  width: 50px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  text-align: center;
-}
-
-/* Step 3: Summary & Payment */
-.payment-form {
-    margin-top: 10px;
-  }
-  
-  .form-group {
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-  }
-  
-  .ticket-summary-total {
-    margin-top: 0px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: right;
-  }
-  
-
-/* Step 4: Confirmation */
-.confirmation {
-  text-align: center;
-}
-
-.confirmation button {
-  padding: 10px 20px;
-  margin: 10px;
-  background-color: #00C7BB;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.confirmation button:hover {
-  background-color: #008f89;
-}
-
-/* Navigation Buttons */
 .step-navigation {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
 }
 
 .step-navigation button {
-  margin: 0;
-  padding: 10px 20px;
-  background-color: #00C7BB;
-  color: white;
-  width: 20%;
+  padding: 0.7rem 1.15rem;
+  background: var(--trv-cyan, #2ec4b6);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 600;
 }
 
 .step-navigation button:hover {
-  background-color: #008f89;
+  background: #25a99d;
 }
 
-/* Dark overlay */
+.step-navigation button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.payment-form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 420px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--trv-muted, #5b6b7c);
+}
+
+.form-group input {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--trv-border, #d9e2ec);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.download-ticket,
+.show-qr {
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--trv-navy, #0b2c4a);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  z-index: 1000; /* Below the modal content */
+  inset: 0;
+  background: rgba(13, 27, 42, 0.55);
+  z-index: 999;
 }
 
-/* Modal content */
 .qr-modal {
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  z-index: 1000; /* Above the overlay */
+  background: #fff;
+  padding: 1.35rem;
+  border-radius: 14px;
+  border: 1px solid var(--trv-border, #d9e2ec);
+  box-shadow: var(--trv-shadow, 0 8px 24px rgba(11, 44, 74, 0.08));
+  z-index: 1000;
+  text-align: center;
 }
 
 .qr-code-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  margin: 0.75rem 0;
 }
 
-.qr-code-container button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #00c7bb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.qr-code-container button:hover {
-  background-color: #00a89d;
-}
-
-.step-navigation button,
-.qr-code-container button,
-.confirmation button,
-.download-ticket,
-.show-qr,
-.showtime-button {
-  padding: 6px 12px; 
-  font-size: 12px; 
-  border-radius: 3px; 
-}
-
-.step-navigation button {
-  margin: auto;
-
-}
-
-
-.step-navigation button:hover,
-.qr-code-container button:hover,
-.confirmation button:hover,
-.download-ticket:hover,
-.show-qr:hover,
-.showtime-button:hover {
-  background-color: #008f89; 
-}
-
-@media (max-width: 600px) {
-  .step-navigation button,
-  .qr-code-container button,
-  .showtime-button {
-    padding: 5px 10px; /* Further reduce padding for smaller screens */
-    font-size: 10px; /* Smaller font size for mobile */
-  }
-}
-
-
-/* Media Queries for Responsive Design */
-
-/* Small Screens (Mobile) */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .steps {
-    flex-direction: column; /* Stack steps vertically */
-    align-items: center;
-    gap: 5px;
+    grid-template-columns: 1fr 1fr;
   }
-
-  .step {
-    flex: none;
-    width: 100%; /* Full width for each step */
-    text-align: left; /* Align text to the left for readability */
-  }
-
-  .showtime-button {
-    flex: 1; /* Buttons adjust size on smaller screens */
-    font-size: 12px;
-  }
-
-  .ticket-option {
-    flex-direction: column; /* Stack label and input */
-    text-align: center;
-    gap: 5px;
-  }
-}
-
-/* Medium Screens (Tablets) */
-@media (max-width: 900px) {
-  .steps {
-    gap: 10px;
-  }
-
-  .step-content {
-    padding: 15px;
-  }
-
-  .showtime-options {
-    gap: 5px;
-  }
-}
-
-.step-navigation button,
-.download-ticket,
-.show-qr {
-    padding: 10px 20px; /* Consistent padding */
-    background-color: #00C7BB; /* Unified button color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer on hover */
-    transition: background-color 0.3s; /* Smooth transition */
-}
-
-.step-navigation button:hover,
-.download-ticket:hover,
-.show-qr:hover {
-    background-color: #008f89; /* Darker shade on hover */
 }

@@ -45,7 +45,7 @@ const Login = () => {
     if (user) {
       localStorage.setItem("currentUser", JSON.stringify(user));
       login();
-      navigate("/");
+      navigate("/app");
     } else {
       alert("Invalid email or password. Please try again.");
     }
