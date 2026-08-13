@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
   });
 
   const login = (userData) => {
-    console.log("Logging in...");
     setIsAuthenticated(true);
     setUser(userData);
     localStorage.setItem("isAuthenticated", "true");
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log("Logging out...");
     setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem("isAuthenticated");
@@ -44,8 +42,6 @@ export const AuthProvider = ({ children }) => {
       logout(); // Auto logout expired sessions
     }
   }, []);
-
-  console.log("AuthContext isAuthenticated:", isAuthenticated);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>

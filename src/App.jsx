@@ -26,7 +26,6 @@ const TableBooking = lazy(() => import("./pages/TableBooking"));
 const Bars = lazy(() => import("./pages/Bars"));
 const BarVirtualTour = lazy(() => import("./pages/BarTour"));
 const Activities = lazy(() => import("./pages/Activities"));
-const Sports = lazy(() => import("./pages/Sports"));
 const Tours = lazy(() => import("./pages/Tours"));
 const ActivitiesBooking = lazy(() => import("./pages/ActivitiesBooking"));
 const Cinemas = lazy(() => import("./pages/Cinemas"));
@@ -84,7 +83,7 @@ const App = () => {
                 <Route path="/activities/tours" element={<Tours />} />
                 <Route path="/tours" element={<Tours />} />
                 <Route path="/tour-details/:tourId" element={<ActivitiesBooking />} />
-                <Route path="/activities/sports" element={<Sports />} />
+                <Route path="/activities/sports" element={<Activities />} />
                 <Route path="/activities/excursions" element={<Activities />} />
 
                 <Route path="/entertainment" element={<Entertainment />} />
