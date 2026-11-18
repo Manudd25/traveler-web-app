@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Modal from "react-modal";
 import Map from "react-map-gl";
-import { MAPBOX_TOKEN } from "../utils/mapboxToken";
+import { MAPBOX_TOKEN, hasMapboxToken } from "../utils/mapboxToken";
 import "../styles/MapModal.css";
 
 Modal.setAppElement("#root");
@@ -27,23 +27,28 @@ const MapModal = ({
           Close
         </button>
       </div>
-      {isOpen && (
-        <Map
-          key={`${latitude}-${longitude}`}
-          initialViewState={{
-            longitude,
-            latitude,
-            zoom: 13,
-          }}
-          style={{
-            width: "100%",
-            height: "70vh",
-            borderRadius: "10px",
-          }}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-          mapboxAccessToken={MAPBOX_TOKEN}
-        />
-      )}
+      {isOpen &&
+        (hasMapboxToken ? (
+          <Map
+            key={`${latitude}-${longitude}`}
+            initialViewState={{
+              longitude,
+              latitude,
+              zoom: 13,
+            }}
+            style={{
+              width: "100%",
+              height: "70vh",
+              borderRadius: "10px",
+            }}
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            mapboxAccessToken={MAPBOX_TOKEN}
+          />
+        ) : (
+          <p className="trv-empty" style={{ padding: "1.5rem" }}>
+            Map unavailable. Add <code>MAPBOX_TOKEN</code> to your <code>.env</code> file.
+          </p>
+        ))}
     </Modal>
   );
 };

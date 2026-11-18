@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Map from "react-map-gl";
 import MapModal from "../../components/MapModal";
 import { useTripDestination } from "../../hooks/useTripDestination";
-import { MAPBOX_TOKEN } from "../../utils/mapboxToken";
+import { MAPBOX_TOKEN, hasMapboxToken } from "../../utils/mapboxToken";
 import restaurant from "../../assets/restaurant.jpg";
 import bars from "../../assets/bars.jpg";
 import activities from "../../assets/activities.jpg";
@@ -78,19 +78,24 @@ export default function Discover() {
           aria-label="Open larger map"
           style={{ cursor: "pointer", marginTop: "0.75rem" }}
         >
-          {ready && (
-            <Map
-              key={`${geo.lat}-${geo.lng}`}
-              initialViewState={{
-                longitude: geo.lng,
-                latitude: geo.lat,
-                zoom: 12,
-              }}
-              style={{ width: "100%", height: 260, borderRadius: 8 }}
-              mapStyle="mapbox://styles/mapbox/streets-v11"
-              mapboxAccessToken={MAPBOX_TOKEN}
-            />
-          )}
+          {ready &&
+            (hasMapboxToken ? (
+              <Map
+                key={`${geo.lat}-${geo.lng}`}
+                initialViewState={{
+                  longitude: geo.lng,
+                  latitude: geo.lat,
+                  zoom: 12,
+                }}
+                style={{ width: "100%", height: 260, borderRadius: 8 }}
+                mapStyle="mapbox://styles/mapbox/streets-v11"
+                mapboxAccessToken={MAPBOX_TOKEN}
+              />
+            ) : (
+              <p className="trv-empty" style={{ padding: "1rem" }}>
+                Map unavailable. Add <code>MAPBOX_TOKEN</code> to <code>.env</code>.
+              </p>
+            ))}
         </div>
         <p className="trv-sub" style={{ marginTop: "0.65rem" }}>
           Results in Restaurants, Tours, Cinemas and Activities follow this destination.

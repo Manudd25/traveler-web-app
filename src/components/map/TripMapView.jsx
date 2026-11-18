@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import Map, { Marker, Popup, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { MAPBOX_TOKEN } from "../../utils/mapboxToken";
+import { MAPBOX_TOKEN, hasMapboxToken } from "../../utils/mapboxToken";
 
 const CATEGORY_COLORS = {
   accommodation: "#db2777",
@@ -32,6 +32,18 @@ export default function TripMapView({ places = [], height = 480, initialCenter }
   };
 
   const [popup, setPopup] = useState(null);
+
+  if (!hasMapboxToken) {
+    return (
+      <div className="trv-empty" style={{ minHeight: height }}>
+        <h3>Map unavailable</h3>
+        <p>
+          Add <code>MAPBOX_TOKEN</code> to your <code>.env</code> file (Mapbox public token,{" "}
+          <code>pk.*</code>).
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ borderRadius: "var(--trv-radius)", overflow: "hidden", border: "1px solid var(--trv-border)" }}>
